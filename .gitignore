@@ -1,11 +1,14 @@
 # 預設忽略所有檔案
 *
 
-# 允許 Git 繼續檢查子資料夾
+# 允許檢查子資料夾
 !*/
 
-# 只保留 Python 原始碼
+# 上傳 Python 程式碼
 !*.py
+
+# 上傳 repository 根目錄的 environment.yml
+!/environment.yml
 
 # 上傳 .gitignore 本身
 !.gitignore
