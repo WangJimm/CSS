@@ -1,0 +1,11 @@
+# 預設忽略所有檔案
+*
+
+# 允許 Git 繼續檢查子資料夾
+!*/
+
+# 只保留 Python 原始碼
+!*.py
+
+# 上傳 .gitignore 本身
+!.gitignore
