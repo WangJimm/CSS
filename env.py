@@ -199,9 +199,14 @@ class Env(object):
         
         
         """
-        eat_state = [v for k,v in self.eat.items()]
-        # max_eat = max(eat_state + [max_eat])
-        eat_state = [eat_state[i]/600 for i in range(len(self.eat))]
+        # EAT is stored as an absolute SUMO timestamp.  Agent state should
+        # describe how long the EV must wait relative to its own departure,
+        # matching the contextual LinUCB state semantics.  Stations that are
+        # already available have zero remaining wait.
+        eat_state = [
+            max(float(self.eat[cs]) - float(depart_time), 0.0) / 600.0
+            for cs in self.cs_loc
+        ]
         dis_state = self.dis_table[depart_node]
         sacd_state = dis_state + [depart_power] + eat_state # + [(state[1]-dt)/86400] # + [state[0]/env.node_len] # + avai_piles #DRL_state 是要丟給 DRL的
         return sacd_state
