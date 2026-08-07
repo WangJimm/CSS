@@ -11,7 +11,11 @@ import random
 from .utils import MinSegmentTree, SumSegmentTree
 from typing import Dict, List, Tuple
 import sys
+from pathlib import Path
 from torch.utils.tensorboard import SummaryWriter
+
+
+DEFAULT_SACD_CHECKPOINT = Path(__file__).resolve().parents[1] / "parameters" / "env_sacd.pt"
 
 
 # ---------------------------
@@ -325,7 +329,7 @@ class DiscreteSACAgent:
         torch.save(ckpt, filename)
         print("para saved")
 
-    def load_para(self, filename = "tmp_file.pt", strict = True):
+    def load_para(self, filename = DEFAULT_SACD_CHECKPOINT, strict = True):
         try:
             ckpt = torch.load(filename, map_location=self.device, weights_only=True)
         except TypeError:

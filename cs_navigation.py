@@ -81,6 +81,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--standard-evaluation", action="store_true", help="Use standard evaluation instead of higher evaluation.")
     parser.add_argument("--use-gui", action="store_true", help="Use sumo-gui instead of sumo.")
     parser.add_argument('--sumo-trace', action='store_true', help='Record replayable TraCI commands for SUMO crash diagnosis.')
+    parser.add_argument('--show-sumo-warnings', action='store_true', help='Show non-fatal SUMO warnings (hidden by default).')
     parser.add_argument('--seed', type=int, default=42, help='Seed Python, NumPy, PyTorch, and LinUCB.')
     return parser.parse_args()
 
@@ -127,13 +128,13 @@ cmd = [
     sumoBinary,
     '-c',
     cfg_path,
-    '-W',
-    'true',
     '--step-length',
     '0.5',
     '--error-log',
     str(error_log),
 ]
+if not args.show_sumo_warnings:
+    cmd.append('--no-warnings')
 sumo_stdout_handle = stdout_log.open('w', encoding='utf-8')
 start_kwargs = {'stdout': sumo_stdout_handle}
 if args.sumo_trace:
@@ -260,6 +261,7 @@ if args.mode in {"train", "both"}:
         run_evaluation=RUN_EVALUATION,
         using_min_waiting=True,
         route_planning_mode=ACTIVE_ROUTE_MODE,
+        show_sumo_warnings=args.show_sumo_warnings,
     )
 
     total_reward, total_eval_rewards, min_waiting_eval_rewards, shortest_eval_rewards, best_data, base_data_1, base_data_2 = results
@@ -268,6 +270,7 @@ if args.mode in {"train", "both"}:
     print("shortest ", base_data_2)
 
     if args.mode == "train":
+        traci.close()
         sys.exit("end of training")
 
 # plot_train_process(total_reward, savename = "total_rewards")

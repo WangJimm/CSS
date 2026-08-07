@@ -5,9 +5,9 @@ from collections import deque
 import torch
 import math
 
-os.environ["SUMO_HOME"] = r"C:\Program Files (x86)\Eclipse\Sumo"
-sys.path.append(os.path.join(os.environ["SUMO_HOME"], "tools"))
-os.environ["PATH"] = os.environ["PATH"] + ";" + os.path.join(os.environ["SUMO_HOME"], "bin")
+# os.environ["SUMO_HOME"] = r"C:\Program Files (x86)\Eclipse\Sumo"
+# sys.path.append(os.path.join(os.environ["SUMO_HOME"], "tools"))
+# os.environ["PATH"] = os.environ["PATH"] + ";" + os.path.join(os.environ["SUMO_HOME"], "bin")
 
 
 
@@ -35,7 +35,7 @@ general_veh_flows = [1800] # 先用1800試試看，不然太久了
 # testing_veh_flows controls final evaluation/testing.
 training_veh_flows = [1800]
 validation_veh_flows = [1800]
-testing_veh_flows = [1800]
+testing_veh_flows = [1500,1800,2100]
 
 # # 2.1) 挑選環境，目前是使用small env
 # """

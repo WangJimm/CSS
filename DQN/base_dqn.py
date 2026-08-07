@@ -7,12 +7,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 from collections import namedtuple, deque
+from pathlib import Path
 from torch_geometric.nn import GINEConv
 from torch.utils.tensorboard import SummaryWriter
 from torch_geometric.data import Batch
 
 
 Transition = namedtuple('Transition', ('state', 'action', 'reward', 'next_state', 'done'))
+DEFAULT_DQN_CHECKPOINT = Path(__file__).resolve().parents[1] / "parameters" / "env_dqn.pt"
 
 # 創建網路
 class Net(nn.Module):
@@ -161,7 +163,7 @@ class base_DQN(object):
         torch.save(ckpt, filename)
         print("para saved")
 
-    def load_para(self, filename = "tmp_file.pt", strict=True):
+    def load_para(self, filename = DEFAULT_DQN_CHECKPOINT, strict=True):
         try:
             ckpt = torch.load(f"{filename}", map_location=self.device, weights_only=True)
         except TypeError:  # 舊版 PyTorch 沒這個參數

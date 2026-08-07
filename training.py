@@ -626,6 +626,7 @@ def DRL_train(
     seed_end: int = 20, # int = 150, for env:20 / for small env: 150
     save_results: bool = True,
     results_filename: str | None = None,
+    show_sumo_warnings: bool = False,
 ):
     """
     using_min_waiting: 若True, 會增加 min waiting time baseline 的模擬
@@ -671,7 +672,11 @@ def DRL_train(
         min_waiting_reward = 0
         scenario_key = scenario_schedule[epi_i]
         cfg = load_sumo(eval = False, scenario_key = scenario_key) # cfg相關去看SumoLoadConfig
-        load_args = [arg for arg in cfg.load_args if arg != '--no-warnings']
+        load_args = list(cfg.load_args)
+        if show_sumo_warnings:
+            load_args = [arg for arg in load_args if arg != '--no-warnings']
+        elif '--no-warnings' not in load_args:
+            load_args.append('--no-warnings')
         load_args.extend(['--error-log', str(sumo_error_log)])
         try:
             traci.load(load_args)

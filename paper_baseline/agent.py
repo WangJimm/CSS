@@ -1,6 +1,7 @@
 import copy
 import random
 from dataclasses import dataclass
+from pathlib import Path
 
 import numpy as np
 import torch
@@ -10,6 +11,9 @@ from torch_geometric.nn import GCNConv
 from torch.utils.tensorboard import SummaryWriter
 
 from utils_sumo import build_data_runtime, freeze_pyg_data
+
+
+DEFAULT_PAPER_BASELINE_CHECKPOINT = Path(__file__).resolve().parents[1] / "parameters" / "env_paper_baseline.pt"
 
 
 def _to_scalar(x):
@@ -281,7 +285,7 @@ class PaperBaselineAgent:
         torch.save(ckpt, filename)
         print("para saved")
 
-    def load_para(self, filename="paper_baseline_tmp.pt", strict=True):
+    def load_para(self, filename=DEFAULT_PAPER_BASELINE_CHECKPOINT, strict=True):
         try:
             ckpt = torch.load(filename, map_location=self.device, weights_only=True)
         except TypeError:
