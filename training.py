@@ -627,6 +627,7 @@ def DRL_train(
     save_results: bool = True,
     results_filename: str | None = None,
     show_sumo_warnings: bool = False,
+    checkpoint_filename: str | Path | None = None,
 ):
     """
     using_min_waiting: 若True, 會增加 min waiting time baseline 的模擬
@@ -906,7 +907,10 @@ def DRL_train(
             )
 
             if eval_cost > best_eval_cost:
-                agent.save_para()
+                if checkpoint_filename is None:
+                    agent.save_para()
+                else:
+                    agent.save_para(checkpoint_filename)
                 best_eval_cost = eval_cost
                 best_data = eval_data_bag
                 base_data_1 = min_waiting_data_bag
@@ -914,7 +918,10 @@ def DRL_train(
                 best_evaluation_detail = eval_detail
 
     if not run_evaluation:
-        agent.save_para()
+        if checkpoint_filename is None:
+            agent.save_para()
+        else:
+            agent.save_para(checkpoint_filename)
     agent.writer.close()
     if save_results:
         stamp = time.strftime("%Y%m%d-%H%M%S")

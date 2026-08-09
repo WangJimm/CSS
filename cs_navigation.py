@@ -83,6 +83,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument('--sumo-trace', action='store_true', help='Record replayable TraCI commands for SUMO crash diagnosis.')
     parser.add_argument('--show-sumo-warnings', action='store_true', help='Show non-fatal SUMO warnings (hidden by default).')
     parser.add_argument('--seed', type=int, default=42, help='Seed Python, NumPy, PyTorch, and LinUCB.')
+    parser.add_argument('--checkpoint', type=str, default=None, help='Checkpoint path to save during training and load during evaluation.')
     return parser.parse_args()
 
 
@@ -262,6 +263,7 @@ if args.mode in {"train", "both"}:
         using_min_waiting=True,
         route_planning_mode=ACTIVE_ROUTE_MODE,
         show_sumo_warnings=args.show_sumo_warnings,
+        checkpoint_filename=args.checkpoint,
     )
 
     total_reward, total_eval_rewards, min_waiting_eval_rewards, shortest_eval_rewards, best_data, base_data_1, base_data_2 = results
@@ -278,7 +280,10 @@ if args.mode in {"train", "both"}:
 
 # ??銝oute planning?券????迤撣?
 print("testing ========================================")
-active_agent.load_para()
+if args.checkpoint is None:
+    active_agent.load_para()
+else:
+    active_agent.load_para(args.checkpoint)
 # eval_cost, _, data, rand_data = evaluation(env, agent, route_planning_mode = ROUTE_PLANNING_MODE[0]) # ?牡qngnn ?楝敺???
 # eval_cost, rand_cost, shortest_cost, eval_data_bag, rand_data_bag, shortest_data_bag = \
 #     evaluation(env, active_agent, using_min_waiting=True, using_shortest = True, route_planning_mode = ROUTE_PLANNING_MODE[0])
