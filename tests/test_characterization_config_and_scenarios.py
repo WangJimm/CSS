@@ -11,6 +11,7 @@ import numpy as np
 import config
 import training
 from css.experiment import scenarios
+from css.experiment.environments import resolve_environment
 
 
 class ConfigCharacterizationTests(unittest.TestCase):
@@ -38,28 +39,25 @@ class ScenarioCharacterizationTests(unittest.TestCase):
         self.assertEqual(
             training.build_training_scenario_schedule(8, schedule_seed=42),
             [
-                training.ScenarioKey(0, 1, 9),
-                training.ScenarioKey(0, 1, 5),
-                training.ScenarioKey(0, 1, 19),
-                training.ScenarioKey(0, 1, 1),
-                training.ScenarioKey(0, 1, 8),
-                training.ScenarioKey(0, 1, 18),
-                training.ScenarioKey(0, 1, 15),
-                training.ScenarioKey(0, 1, 6),
+                training.ScenarioKey(2, 1, 30203),
+                training.ScenarioKey(0, 1, 30097),
+                training.ScenarioKey(0, 1, 30021),
+                training.ScenarioKey(2, 2, 30120),
+                training.ScenarioKey(1, 1, 30006),
+                training.ScenarioKey(0, 2, 30095),
+                training.ScenarioKey(0, 2, 30070),
+                training.ScenarioKey(0, 2, 30003),
             ],
         )
 
     def test_every_default_training_scenario_has_required_assets(self):
-        for seed in range(config.TRAINING_SEED_START, config.TRAINING_SEED_END + 1):
-            for probability in (1, 2):
-                loaded = training.load_sumo(
-                    scenario_key=training.ScenarioKey(0, probability, seed),
-                    veh_flows=config.training_veh_flows,
-                )
-                with self.subTest(seed=seed, probability=probability):
-                    self.assertTrue(Path(loaded.general).is_file())
-                    self.assertTrue(Path(loaded.ev_routes).is_file())
-                    self.assertEqual(len(loaded.evs), len(loaded.ev_power))
+        environment = resolve_environment()
+        for key in scenarios.scenario_keys_for_split(environment, 'training'):
+            loaded = training.load_sumo(scenario_key=key)
+            with self.subTest(key=key):
+                self.assertTrue(Path(loaded.general).is_file())
+                self.assertTrue(Path(loaded.ev_routes).is_file())
+                self.assertEqual(len(loaded.evs), len(loaded.ev_power))
 
     def test_flow_index_resolution_and_error_are_stable(self):
         flows = [1500, 1800, 2100]
@@ -81,15 +79,15 @@ class ScenarioCharacterizationTests(unittest.TestCase):
 
     def test_training_loader_maps_real_route_ids_to_power_values(self):
         loaded = training.load_sumo(
-            scenario_key=training.ScenarioKey(0, 1, 1),
-            veh_flows=[1800],
+            scenario_key=training.ScenarioKey(0, 1, 30000),
+            veh_flows=[1500],
         )
 
-        self.assertEqual((loaded.rd1, loaded.rd2, loaded.rd3), (1, 1, 0))
-        self.assertEqual(loaded.veh_flow, 1800)
-        self.assertEqual(Path(loaded.general).name, "output_1800_1.rou.xml")
+        self.assertEqual((loaded.rd1, loaded.rd2, loaded.rd3), (30000, 1, 0))
+        self.assertEqual(loaded.veh_flow, 1500)
+        self.assertEqual(Path(loaded.general).name, "output_1500_30000.rou.xml")
         self.assertEqual(Path(loaded.general).parent.name, "training_data")
-        self.assertEqual(Path(loaded.ev_routes).name, "ev_1800_p01_1.rou.xml")
+        self.assertEqual(Path(loaded.ev_routes).name, "ev_1500_p01_30000.rou.xml")
         self.assertEqual(Path(loaded.ev_routes).parent.name, "training_data")
         self.assertEqual(list(loaded.ev_power), loaded.evs)
         self.assertEqual(len(loaded.evs), len(loaded.ev_power))
@@ -100,8 +98,8 @@ class ScenarioCharacterizationTests(unittest.TestCase):
         before = random.getstate()
 
         training.load_sumo(
-            scenario_key=training.ScenarioKey(0, 1, 1),
-            veh_flows=[1800],
+            scenario_key=training.ScenarioKey(0, 1, 30000),
+            veh_flows=[1500],
         )
 
         self.assertEqual(random.getstate(), before)

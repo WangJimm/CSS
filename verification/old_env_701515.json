@@ -1,0 +1,112 @@
+{
+  "status": "passed",
+  "active_dataset": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\CSS_refactor\\env",
+  "counts": {
+    "training": {
+      "background_routes": 210,
+      "ev_routes": 420,
+      "goal_files": 420,
+      "power_files": 420,
+      "ev_assignments": 5740
+    },
+    "validation": {
+      "background_routes": 45,
+      "ev_routes": 90,
+      "goal_files": 90,
+      "power_files": 90,
+      "ev_assignments": 1230
+    },
+    "testing": {
+      "background_routes": 45,
+      "ev_routes": 90,
+      "goal_files": 90,
+      "power_files": 90,
+      "ev_assignments": 1230
+    }
+  },
+  "full_ev_assignments": 8200,
+  "rp_partition_and_route_hashes_identical": true,
+  "reference_goals_match_rp_cases": 600,
+  "cross_split_seed_and_file_hash_overlap": 0,
+  "station_action_order_preserved": [
+    "42496394",
+    "42490303",
+    "42474000"
+  ],
+  "old_route_tls_features_preserved": true,
+  "network_and_route_weights_unchanged": true,
+  "new_env_dataset_unchanged": true,
+  "legacy_backup": "C:\\Users\\Master\\Documents\\Codex\\2026-10-21\\new-chat\\outputs\\css_old_env_701515_2026-11-17\\legacy_env_backup",
+  "legacy_backup_files_sha256_verified": 822,
+  "unit_tests": 95,
+  "sumo_route_smoke": [
+    {
+      "environment": "env",
+      "route_mode": "dqngnn",
+      "ev": "EV_0",
+      "background_source": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\CSS_refactor\\env\\training_data\\output_1500_30000.rou.xml",
+      "simulation_steps": 609,
+      "route_failure_count": 0,
+      "total_reward": -14.067333333333332,
+      "elapsed_seconds": 0.6870000000344589,
+      "input_state_dim": null,
+      "status": "passed"
+    },
+    {
+      "environment": "env",
+      "route_mode": "dqn",
+      "ev": "EV_0",
+      "background_source": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\CSS_refactor\\env\\training_data\\output_1500_30000.rou.xml",
+      "simulation_steps": 609,
+      "route_failure_count": 0,
+      "total_reward": -14.067333333333332,
+      "elapsed_seconds": 0.9370000000344589,
+      "input_state_dim": 239,
+      "status": "passed"
+    },
+    {
+      "environment": "env",
+      "route_mode": "dijkstra",
+      "ev": "EV_0",
+      "background_source": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\CSS_refactor\\env\\training_data\\output_1500_30000.rou.xml",
+      "simulation_steps": 609,
+      "route_failure_count": 0,
+      "total_reward": -14.067333333333332,
+      "elapsed_seconds": 0.2809999999590218,
+      "input_state_dim": null,
+      "status": "passed"
+    }
+  ],
+  "one_complete_training_episode": {
+    "episode": 0,
+    "reward": -162.67033333333333,
+    "scenario_index": 2,
+    "scenario_name": 2100,
+    "probability_index": 1,
+    "seed": 30203,
+    "ev_count": 11,
+    "route_planning_mode": "dqngnn",
+    "route_file": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\CSS_refactor\\env\\training_data\\ev_2100_p01_30203.rou.xml",
+    "general_file": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\CSS_refactor\\env\\training_data\\output_2100_30203.rou.xml",
+    "route_failure_count": 0,
+    "route_failures": []
+  },
+  "train_evaluations_in_smoke": 0,
+  "final_checkpoint_saved": "C:\\Users\\Master\\Documents\\Codex\\2026-10-21\\new-chat\\outputs\\css_old_env_701515_2026-11-17\\smoke_linucb_701515_final.pt",
+  "full_training_started": false,
+  "changed_runtime_and_support_files": [
+    "css/experiment/environments.py",
+    "css/experiment/scenarios.py",
+    "css/experiment/training.py",
+    "scripts/run_experiment.py",
+    "css/experiment/config.py",
+    "scripts/prepare_css_dataset.py",
+    "scripts/verify_css_dataset.py",
+    "tests/test_old_environment_split.py",
+    "tests/test_characterization_config_and_scenarios.py",
+    "tests/test_characterization_data_assets.py",
+    "README_PORTABLE_zh-TW.md"
+  ],
+  "unchanged_new_env_and_route_assets_sha256_verified": 2131,
+  "portable_unit_tests": 95
+}

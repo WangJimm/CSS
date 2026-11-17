@@ -18,6 +18,11 @@ class EnvironmentConfig:
     manifest_based: bool = False
 
     @property
+    def prefer_controlled_tls(self):
+        # This is a network/model convention, independent of dataset splitting.
+        return self.name == 'new_env'
+
+    @property
     def cfg_path(self): return self.root / 'osm.sumocfg'
     @property
     def net_path(self): return self.root / 'env_static_tls.net.xml'
@@ -42,6 +47,13 @@ def resolve_environment(name='env', project_root=None):
     project = Path(project_root) if project_root is not None else config.HERE
     root = project / name
     if name == 'env':
+        if (root / 'scenario_manifest.csv').is_file():
+            stations = json.loads((root / 'cs_locations.json').read_text(encoding='utf-8'))
+            if set(stations) != {'42496394', '42490303', '42474000'} or len(stations) != 3:
+                raise ValueError('Old-environment charging stations must match the bundled route models')
+            # Preserve the historical action order used by CSS checkpoints.
+            return EnvironmentConfig(name, root, (1500, 1800, 2100), (1500, 1800, 2100),
+                                     (1500, 1800, 2100), ('42496394', '42490303', '42474000'), True)
         return EnvironmentConfig(name, root, tuple(config.training_veh_flows), tuple(config.validation_veh_flows),
                                  tuple(config.testing_veh_flows), ('42496394', '42490303', '42474000'))
     location_file = root / 'cs_locations.json'

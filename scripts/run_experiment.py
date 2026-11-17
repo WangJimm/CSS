@@ -204,7 +204,7 @@ def main(argv=None):
 
         net = readNet(net_path, withInternal=True)
 
-        static_pack = prepare_static(net, prefer_controlled_tls=environment.manifest_based)
+        static_pack = prepare_static(net, prefer_controlled_tls=environment.prefer_controlled_tls)
 
 
         """

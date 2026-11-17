@@ -26,7 +26,9 @@ using_env = "env"
 RUN_DIR = HERE / "env"
 cfg_path = str(RUN_DIR / "osm.sumocfg")
 net_path = str(RUN_DIR / "env_static_tls.net.xml")
-general_veh_flows = [1800] # 先用1800試試看，不然太久了
+# Legacy fallback only: active env/new_env pools come from resolve_environment
+# and scenario_manifest.csv (420/90/90), not these numeric seed ranges.
+general_veh_flows = [1800]
 # general_veh_flows = [1500, 1800, 2100]
 
 # Split vehicle-flow settings.
@@ -69,7 +71,7 @@ ROUTE_PLANNING_MODE = ["dqngnn", "dqn", "dijkstra", "edqn"]
 class EVState:
     def __init__(self, n_nodes):
         self.done = False
-        self.out = False #超出步數 or 超過範圍 
+        self.out = False #超出步數 or 超過範圍
         self.total_cost = 0.0
 
         self.last_decision_node = None
@@ -84,7 +86,7 @@ class EVState:
         self.last_committed_exit_edge = None
         self.current_exit_edge = None
         self.action_mask = None
-        
+
         self.last_action_nid = None
         self.last_state = None
         self.last_est_time = None
@@ -126,7 +128,7 @@ class EMA_feature:
             return 1 - math.pow(0.5, dt / self.half_life)
         else:
             return 1 - math.exp(-dt / self.tau)
-        
+
     def update(self, key, x: float, now_t: float) -> float:
         if key not in self.val:
             self.val[key] = x

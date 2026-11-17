@@ -127,7 +127,7 @@ def validate_environment_assets(environment):
             if not isinstance(goals, list) or len(goals) != len(cfg.evs) or any(g not in environment.stations for g in goals):
                 raise ValueError(f"Goal file does not match EVs or stations: {goal}")
             if any(not .2 <= value <= .4 for value in cfg.ev_power.values()):
-                raise ValueError(f"new_env SOC outside [0.2, 0.4]: {cfg.ev_routes}")
+                raise ValueError(f"{environment.name} SOC outside [0.2, 0.4]: {cfg.ev_routes}")
             powers_count += len(cfg.evs)
         counts[split] = len(keys)
     return {"environment": environment.name, "data_root": str(environment.root), "manifest_based": True,
@@ -156,6 +156,9 @@ def choose_training_scenario_key(
     seed_end: int = TRAINING_SEED_END,
     environment: EnvironmentConfig | None = None,
 ):
+    if environment is None:
+        from css.experiment.environments import resolve_environment
+        environment = resolve_environment()
     rng = rng or random.Random()
     if environment is not None and environment.manifest_based:
         return rng.choice(scenario_keys_for_split(environment, "training", veh_flows, flow_indices, probability_indices))
@@ -267,6 +270,9 @@ def load_sumo(
     environment: EnvironmentConfig | None = None,
     split: str | None = None,
 ):
+    if environment is None:
+        from css.experiment.environments import resolve_environment
+        environment = resolve_environment()
     selected_split = split or ("testing" if eval else "training")
     if environment is not None and environment.manifest_based:
         flows = list(veh_flows) if veh_flows is not None else list(environment.flows(selected_split))

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-11-14 05:46:43 by Eclipse SUMO duarouter Version 1.24.0
+<duarouterConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\Master\Documents\Codex\2026-10-21\new-chat\outputs\old_env_split_2026-11-14\generated\env_static_tls.net.xml"/>
+        <route-files value="C:\Users\Master\Documents\Codex\2026-10-21\new-chat\outputs\old_env_split_2026-11-14\generated\ev\trips\ev_1800_p01_30147.trips.xml"/>
+    </input>
+
+    <output>
+        <output-file value="C:\Users\Master\Documents\Codex\2026-10-21\new-chat\outputs\old_env_split_2026-11-14\generated\ev\ev_1800_p01_30147.rou.xml"/>
+        <alternatives-output value="C:\Users\Master\Documents\Codex\2026-10-21\new-chat\outputs\old_env_split_2026-11-14\generated\logs\ev_1800_p01_30147\alternatives.rou.alt.xml"/>
+    </output>
+
+    <processing>
+        <remove-loops value="true"/>
+    </processing>
+
+    <report>
+        <no-step-log value="true"/>
+    </report>
+
+</duarouterConfiguration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vehicle id="EV_0" depart="789.00" departLane="best" departPos="random" departSpeed="max">
+        <route edges="-910349262#10 -910349262#7 -910349262#5 -910349262#2 -910349262#0 -910349264 -910351052#1 -1296006050#12 -1296006050#11 -1296006050#9 -1296006050#6 -1296006050#4"/>
+    </vehicle>
+    <vehicle id="EV_1" depart="850.00" departLane="best" departPos="random" departSpeed="max">
+        <route edges="275301512#0 1275759855#0 737623212#0 460779249#0 1296006050#10 5680945#0 5680945#3 555768774#6 1420092904#0 1420092904#1 1420092904#3"/>
+    </vehicle>
+    <vehicle id="EV_2" depart="859.00" departLane="best" departPos="random" departSpeed="max">
+        <route edges="1420092904#1 1420092904#3 -112168183#10 -5679871#7 -5679871#5 5680818#0 5679540#0 5679540#3 5679540#7 5679540#10 5679540#14 5679540#17 5702460#0"/>
+    </vehicle>
+    <vehicle id="EV_3" depart="1076.00" departLane="best" departPos="random" departSpeed="max">
+        <route edges="5702460#0 5702460#4 729125920#1 729125920#4 729125920#6 729125920#8 729125920#11 1275759855#0 737623212#0 460779249#0 1296006050#10 5680945#0"/>
+    </vehicle>
+    <vehicle id="EV_4" depart="1148.00" departLane="best" departPos="random" departSpeed="max">
+        <route edges="-5682011#4 -5682011#2 -5677469#5 -5677469#2 5679871#6 112168183#8 112168183#11 112168183#14"/>
+    </vehicle>
+    <vehicle id="EV_5" depart="1264.00" departLane="best" departPos="random" departSpeed="max">
+        <route edges="-1420092904#2 -1420092904#0 -275391275#1 5679077#0 -1296006050#12 -1296006050#11 -1296006050#9 -1296006050#6"/>
+    </vehicle>
+    <vehicle id="EV_6" depart="1322.00" departLane="best" departPos="random" departSpeed="max">
+        <route edges="5679519#3 5679519#6 639118785#3 639118785#6 -5682011#7 5676305#0 5676305#2 542676016#0"/>
+    </vehicle>
+    <vehicle id="EV_7" depart="1460.00" departLane="best" departPos="random" departSpeed="max">
+        <route edges="-461075406 112168183#0 112168183#3 112168183#6 5679871#8 -5678740#2"/>
+    </vehicle>
+    <vehicle id="EV_8" depart="1605.00" departLane="best" departPos="random" departSpeed="max">
+        <route edges="-5682011#16 -5682011#13 -5682011#10 -5682011#7 -5682011#4 -5682011#2 -5677469#5 -5677469#2 -5679871#5"/>
+    </vehicle>
+</routes>

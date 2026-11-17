@@ -1,12 +1,25 @@
 {
-  "unit_tests_passed": 88,
+  "unit_tests_passed": 95,
   "inference_parity_models": 4,
   "sumo_smoke_combinations": 4,
   "sumo_smoke_route_failures": 0,
   "full_css_training_started": false,
-  "data_scope": "CSS complete env/new_env; no RP remove3 exclusions; existing CSS splits preserved.",
-  "portable_unit_tests_passed": 88,
+  "data_scope": "Complete env/new_env; both 70/15/15 per demand; no RP remove3/remove4 exclusions.",
+  "portable_unit_tests_passed": 95,
   "git_preserves_dataset_and_model_bytes": true,
   "runtime_speedup_regression_cases": 3,
-  "runtime_speedup_final_parameters_identical": true
+  "runtime_speedup_final_parameters_identical": true,
+  "old_env_scenarios": {
+    "training": 420,
+    "validation": 90,
+    "testing": 90
+  },
+  "old_env_ev_counts": {
+    "training": 5740,
+    "validation": 1230,
+    "testing": 1230
+  },
+  "old_env_independent_validation": true,
+  "old_env_route_smoke_modes": 3,
+  "old_env_full_episode_smoke": 1
 }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-11-14 05:46:50 by Eclipse SUMO duarouter Version 1.24.0
+<duarouterConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\Master\Documents\Codex\2026-10-21\new-chat\outputs\old_env_split_2026-11-14\generated\env_static_tls.net.xml"/>
+        <route-files value="C:\Users\Master\Documents\Codex\2026-10-21\new-chat\outputs\old_env_split_2026-11-14\generated\ev\trips\ev_2100_p01_30019.trips.xml"/>
+    </input>
+
+    <output>
+        <output-file value="C:\Users\Master\Documents\Codex\2026-10-21\new-chat\outputs\old_env_split_2026-11-14\generated\ev\ev_2100_p01_30019.rou.xml"/>
+        <alternatives-output value="C:\Users\Master\Documents\Codex\2026-10-21\new-chat\outputs\old_env_split_2026-11-14\generated\logs\ev_2100_p01_30019\alternatives.rou.alt.xml"/>
+    </output>
+
+    <processing>
+        <remove-loops value="true"/>
+    </processing>
+
+    <report>
+        <no-step-log value="true"/>
+    </report>
+
+</duarouterConfiguration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vehicle id="EV_0" depart="189.18" departLane="best" departPos="random" departSpeed="max">
+        <route edges="5682011#3 845948939#0 -5679540#6 -5679540#2 -910349262#2 -910349262#0 842624848#0 275391270#0 275391274#0 221689145#3 555768774#3"/>
+    </vehicle>
+    <vehicle id="EV_1" depart="352.09" departLane="best" departPos="random" departSpeed="max">
+        <route edges="5680945#0 5680945#3 555768774#6 -275391275#1 5680263#0 910349265 5679519#0 275301507#0 275301510#0 275301508#0 275301511#0"/>
+    </vehicle>
+    <vehicle id="EV_2" depart="352.09" departLane="best" departPos="random" departSpeed="max">
+        <route edges="5680133#1 5680133#2 762167416#0 1296006050#1 1296006050#3 1296006050#5 1296006050#8 1296006050#10 5680945#0 5680945#3 555768774#6 1420092904#0 1420092904#1"/>
+    </vehicle>
+    <vehicle id="EV_3" depart="672.82" departLane="best" departPos="random" departSpeed="max">
+        <route edges="5680263#0 910349265 5679519#0 275301507#0 5679540#3 5679540#7 5679540#10 5679540#14"/>
+    </vehicle>
+    <vehicle id="EV_4" depart="736.91" departLane="best" departPos="random" departSpeed="max">
+        <route edges="5676838#3 814334330#0 5677205#1 5677205#6 460779249#0 1296006050#10 5680945#0 5680945#3 555768774#6 1420092904#0 1420092904#1"/>
+    </vehicle>
+    <vehicle id="EV_5" depart="854.18" departLane="best" departPos="random" departSpeed="max">
+        <route edges="221578797 221578792#0 5702460#0 5702460#4 729125920#1 729125920#4"/>
+    </vehicle>
+    <vehicle id="EV_6" depart="915.73" departLane="best" departPos="random" departSpeed="max">
+        <route edges="-1197002659#1 -5679540#19 -5679540#16 -5679540#13 -5679540#9 -5679540#6 -5679540#2 910349262#5 825912773#0 -5677469#2"/>
+    </vehicle>
+    <vehicle id="EV_7" depart="1090.36" departLane="best" departPos="random" departSpeed="max">
+        <route edges="-221578796#1 -1197002659#1 -5679540#19 -5679540#16 -5679540#13 -5679540#9 845948939#3"/>
+    </vehicle>
+    <vehicle id="EV_8" depart="1190.00" departLane="best" departPos="random" departSpeed="max">
+        <route edges="221689133#0 221689133#3 -555768772#2 555768774#0 555768774#3 555768774#6 -275391275#1 5680263#0 910349265 5679519#0 275301507#0 275301510#0 5682011#3"/>
+    </vehicle>
+    <vehicle id="EV_9" depart="1366.45" departLane="best" departPos="random" departSpeed="max">
+        <route edges="-112168183#7 -825912773#5 -825912773#2 -910349262#5 -910349262#2 -910349262#0 -910349264 -910351052#1 -1296006050#12 -1296006050#11 -1296006050#9 5676838#0 -5678262#2"/>
+    </vehicle>
+    <vehicle id="EV_10" depart="1599.27" departLane="best" departPos="random" departSpeed="max">
+        <route edges="-5677780#3 -5677780#1 1296006050#5 1296006050#8 1296006050#10 1296006050#12 910351052#0 910349265 910349263 910349262#0 5679871#0 5679871#4 5677469#0 -825912773#2"/>
+    </vehicle>
+</routes>

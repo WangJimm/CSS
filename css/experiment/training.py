@@ -1,5 +1,6 @@
 # from .graph_utils import *
 import json
+import hashlib
 import os
 import sys
 import copy
@@ -142,6 +143,9 @@ def DRL_train(
     using_min_waiting: 若True, 會增加 min waiting time baseline 的模擬
 
     """
+    if environment is None:
+        from css.experiment.environments import resolve_environment
+        environment = resolve_environment()
     train_flows = list(environment.training_flows) if environment is not None else training_veh_flows
     valid_flows = list(environment.validation_flows) if environment is not None else validation_veh_flows
     validation_split = "validation" if environment is not None and environment.manifest_based else "testing"
@@ -467,6 +471,9 @@ def DRL_train(
                 "probability_indices": probability_indices or [1, 2],
                 "seed_start": seed_start,
                 "seed_end": seed_end,
+                "numeric_seed_range_applies": not environment.manifest_based,
+                "scenario_pool_source": str(environment.root / "scenario_manifest.csv") if environment.manifest_based else "legacy numeric ranges",
+                "scenario_manifest_sha256": hashlib.sha256((environment.root / "scenario_manifest.csv").read_bytes()).hexdigest() if environment.manifest_based else None,
                 "eval_frequency": eval_fre,
                 "best_eval_cost": best_eval_cost if run_evaluation else None,
             },

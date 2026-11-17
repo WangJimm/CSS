@@ -18,17 +18,15 @@ def ev_count(path: Path) -> int:
 
 
 class DataAssetCharacterizationTests(unittest.TestCase):
-    def test_available_seed_ranges_are_stable(self):
-        expected = {
-            "training": (1, 20, 80),
-            "testing": (51, 60, 80),
-            "validation": (201, 210, 20),
-        }
-        for split, (minimum, maximum, count) in expected.items():
-            files = list((ENV_ROOT / f"{split}_data").glob("ev_*.rou.xml"))
-            seeds = [int(path.stem.rsplit("_", 1)[1].split(".", 1)[0]) for path in files]
-            with self.subTest(split=split):
-                self.assertEqual((min(seeds), max(seeds), len(files)), (minimum, maximum, count))
+    def test_partition_contains_exactly_the_manifest_routes(self):
+        import csv
+        with (ENV_ROOT / 'scenario_manifest.csv').open(encoding='utf-8-sig', newline='') as stream:
+            rows = list(csv.DictReader(stream))
+        for split in ('training', 'validation', 'testing'):
+            expected = {row['ev_route_file'] for row in rows if row['split'] == split}
+            actual = {p.relative_to(ENV_ROOT).as_posix() for p in (ENV_ROOT / f'{split}_data').glob('ev_*.rou.xml')}
+            self.assertEqual(actual, expected)
+            self.assertEqual(len(actual), 420 if split == 'training' else 90)
 
     def test_all_power_files_match_route_ev_cardinality(self):
         mismatches = []
@@ -47,9 +45,9 @@ class DataAssetCharacterizationTests(unittest.TestCase):
     def test_default_sumo_configuration_route_exists(self):
         config_path = ENV_ROOT / "osm.sumocfg"
         root = ET.parse(config_path).getroot()
-        configured = root.find("./input/route-files").get("value").strip()
-
-        self.assertTrue((ENV_ROOT / configured).is_file())
+        self.assertTrue((ENV_ROOT / root.find('./input/net-file').get('value')).is_file())
+        # Runtime explicitly supplies the selected background and EV routes.
+        self.assertIsNone(root.find('./input/route-files'))
 
 
 if __name__ == "__main__":

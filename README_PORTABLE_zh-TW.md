@@ -21,7 +21,7 @@ python -m scripts.run_experiment --env new_env --check-data
 python -m scripts.check_route_models
 ```
 
-私人 repository 需要你的 GitHub 帳號有讀取權限。已經 clone 此 CSS repository 時，在其目錄執行 `git pull --ff-only`；若有本機修改，先保留修改再更新。**不要在 new_rp 資料夾 pull 期待取得 CSS。**
+本 repository 已設為公開，可直接 clone。已經 clone 此 CSS repository 時，在其目錄執行 `git pull --ff-only`；若有本機修改，先保留修改再更新。**不要在 new_rp 資料夾 pull 期待取得 CSS。**
 
 ## 2. 四份路由模型
 
@@ -61,13 +61,14 @@ python -m scripts.run_experiment --env env --agent linucb --route-mode dqn --mod
 ## 4. 保留的實驗設定
 
 - CSS `new_env` 仍是完整 420 training / 90 validation / 90 testing 場景；testing 1905 EV，沒有套用 RP remove3。CS agent 在出發時自己選站，goal 檔僅作參考；初始 SOC 使用已保存的 0.2–0.4 截斷常態資料。
-- CSS `env` 保持既有資料與抽樣方式：training 預設需求 1800、seed 1–20；final testing 1500/1800/2100、seed 51–60。這次沒有把 CSS 舊環境重新切成 RP 的 70/15/15。
+- CSS `env` 已更新成與 new_env 相同的 70/15/15：1500/1800/2100 各 100 個背景 seed，訓練/驗證/測試為 420/90/90 個場景，對應 5740/1230/1230 輛 EV。沿用 RP 舊環境的完整切分，不套用 remove4。Validation 讀取獨立的 validation_data，不再讀 testing 子集。兩種 EV 比例和相同生成 seed 不跨分區。
+- Old env 初始 SOC 改用與 new_env 相同的截斷常態 N(0.30, 0.05²)，限制於 [0.20, 0.40]，固定逐 EV seed；可達站點中隨機分配的 goal 僅作參考，CSS agent 仍自行選站。既有 CSS 結果屬於舊資料版本，請重新訓練以比較。路網、RP 權重、站點 action 順序及舊地圖號誌特徵均保持原樣。
 - CSS 路由決策上限目前仍是 `css/experiment/config.py` 的 `MAX_DECISIONS_PER_EV=50`，不是 RP testing 的 80；這次只銜接模型，沒有改動訓練預算。CSS 的任務、充電站目標、路由控制時機與排隊互動不同，不保證重現 RP 的抵達率/成本。
 - 額外保留舊環境既有 eDQN 模型供既有相容測試；不是本次四份 RP 模型之一，新環境沒有配套 eDQN。
 
 ## 5. 已完成驗證
 
-四份模型的原始/可攜 tensor 完全相等；同一觀察/graph 下各三組 Q 值與 RP 完全相等。88 項 CSS 測試通過，四個環境×路由組合各以一輛 EV 與原背景車流完成 SUMO 檢查，均無路由失敗。這些是載入/相容性檢查，不是 CSS 完整 training 或 performance 評估。
+四份模型的原始/可攜 tensor 完全相等；同一觀察/graph 下各三組 Q 值與 RP 完全相等。目前 95 項 CSS 測試通過，四個環境×路由組合各以一輛 EV 與原背景車流完成 SUMO 檢查，均無路由失敗。這些是載入/相容性檢查，不是 CSS 完整 training 或 performance 評估。
 
 ## 6. TraCI 查詢加速（2026-11-17）
 
@@ -84,3 +85,17 @@ python -m scripts.run_experiment --env env --agent linucb --route-mode dqn --mod
 | 2950 / p02 / 40054 | 118.85 | 41.49 |
 
 實際速度依電腦與場景而異；這不是完整 1000 episode 的時間保證。路由模型權重、資料切分、0.5 秒步長、決策上限與學習規則均未更改。驗證摘要在 `verification/runtime_speedup.json`。已啟動的 Python 程序不會自動套用更新，需在下次啟動時使用新版。
+
+## 7. Old env 資料更新（2026-11-17）
+
+兩種環境現在都採 manifest 讀取；`--env env` 即選擇更新後的舊路網資料。
+每 episode 仍從訓練集有放回抽樣，`--seed 42` 可重現排程。
+
+```powershell
+python -m scripts.run_experiment --env env --check-data
+python -m scripts.run_experiment --env env --agent linucb --route-mode dqngnn --mode train --episodes 1000 --seed 42 --no-train-evaluation --checkpoint parameters/env/linucb_route_dqngnn_701515_final.pt
+```
+
+資料生成與獨立驗證工具為 `scripts/prepare_css_dataset.py`、`scripts/verify_css_dataset.py`；
+詳細切分、逐車 SOC/goal 對應和雜湊保存在 `env/` 的 manifest 與 protocol 檔案。
+原先的 CSS 資料已保留在本機外部備份目錄，未混入目前的三個分區。

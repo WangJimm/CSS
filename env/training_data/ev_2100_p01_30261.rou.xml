@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-11-14 05:47:30 by Eclipse SUMO duarouter Version 1.24.0
+<duarouterConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\Master\Documents\Codex\2026-10-21\new-chat\outputs\old_env_split_2026-11-14\generated\env_static_tls.net.xml"/>
+        <route-files value="C:\Users\Master\Documents\Codex\2026-10-21\new-chat\outputs\old_env_split_2026-11-14\generated\ev\trips\ev_2100_p01_30261.trips.xml"/>
+    </input>
+
+    <output>
+        <output-file value="C:\Users\Master\Documents\Codex\2026-10-21\new-chat\outputs\old_env_split_2026-11-14\generated\ev\ev_2100_p01_30261.rou.xml"/>
+        <alternatives-output value="C:\Users\Master\Documents\Codex\2026-10-21\new-chat\outputs\old_env_split_2026-11-14\generated\logs\ev_2100_p01_30261\alternatives.rou.alt.xml"/>
+    </output>
+
+    <processing>
+        <remove-loops value="true"/>
+    </processing>
+
+    <report>
+        <no-step-log value="true"/>
+    </report>
+
+</duarouterConfiguration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vehicle id="EV_0" depart="222.55" departLane="best" departPos="random" departSpeed="max">
+        <route edges="-5680945#14 -5680945#11 -5680945#8 555768774#6 -275391275#1 5680263#0 910349265 5679519#0 275301507#0 275301510#0 5682011#3 5682011#5"/>
+    </vehicle>
+    <vehicle id="EV_1" depart="283.27" departLane="best" departPos="random" departSpeed="max">
+        <route edges="275301506#0 275301507#0 5679540#3 5679540#7 639118785#6"/>
+    </vehicle>
+    <vehicle id="EV_2" depart="458.27" departLane="best" departPos="random" departSpeed="max">
+        <route edges="221689145#0 221689145#3 555768774#3 555768774#6 -275391275#1 5680263#0 910349265 910349263 910349262#0 910349262#1 910349262#5 910349262#6 910349262#8 910349262#11 5707608#0"/>
+    </vehicle>
+    <vehicle id="EV_3" depart="513.36" departLane="best" departPos="random" departSpeed="max">
+        <route edges="729125920#4 729125920#6 729125920#8 729125920#11 1275759855#0 737623212#0 460779249#0 1296006050#10 1296006050#12 910351052#0 910349264 842624848#0 275391270#0"/>
+    </vehicle>
+    <vehicle id="EV_4" depart="670.36" departLane="best" departPos="random" departSpeed="max">
+        <route edges="5677780#2 5677780#4 555768774#0 555768774#3 555768774#6 -275391275#1 5680263#0 910349265 910349263 910349262#0"/>
+    </vehicle>
+    <vehicle id="EV_5" depart="1127.18" departLane="best" departPos="random" departSpeed="max">
+        <route edges="5678262#9 275301512#0 275301506#0 275301507#0 275301510#0 275301508#0"/>
+    </vehicle>
+    <vehicle id="EV_6" depart="1189.91" departLane="best" departPos="random" departSpeed="max">
+        <route edges="-5679540#9 -5679540#6 -5679540#2 -910349262#2 -910349262#0 842624848#0 275391275#0 1420092904#0 1420092904#1 274045194#0"/>
+    </vehicle>
+    <vehicle id="EV_7" depart="1220.09" departLane="best" departPos="random" departSpeed="max">
+        <route edges="276080902#0 -5679540#16 -5679540#13 -5679540#9 -5679540#6 275301510#0 275301508#0"/>
+    </vehicle>
+    <vehicle id="EV_8" depart="1282.36" departLane="best" departPos="random" departSpeed="max">
+        <route edges="5679871#8 -5678740#2 -555768775#2 112168183#11 112168183#14 587355755 221689133#0"/>
+    </vehicle>
+    <vehicle id="EV_9" depart="1530.09" departLane="best" departPos="random" departSpeed="max">
+        <route edges="5680945#3 555768774#6 -275391275#1 5680263#0 910349265 910349263 910349262#0 910349262#1 910349262#5 910349262#6 910349262#8 542676016#0 112168183#3"/>
+    </vehicle>
+    <vehicle id="EV_10" depart="1615.73" departLane="best" departPos="random" departSpeed="max">
+        <route edges="-910349262#13 -910349262#10 -910349262#7 -910349262#5 -910349262#2 -910349262#0 842624848#0 275391270#0 275391274#0"/>
+    </vehicle>
+</routes>

@@ -1,0 +1,84 @@
+{
+  "dataset_version": "old_env_701515_20261114",
+  "flows_veh_h": [
+    1500,
+    1800,
+    2100
+  ],
+  "seeds_per_flow": 100,
+  "split_seed": 20261104,
+  "ratios": {
+    "training": 0.7,
+    "validation": 0.15,
+    "testing": 0.15
+  },
+  "counts_per_flow": {
+    "training": 70,
+    "validation": 15,
+    "testing": 15
+  },
+  "split_unit": "background seed plus both EV penetrations and goals",
+  "same_numeric_seed_across_demands": "always in the same split",
+  "shared_seed_cohort_allocation": {
+    "1500+1800": {
+      "training": 34,
+      "validation": 8,
+      "testing": 7
+    },
+    "1500+1800+2100": {
+      "training": 14,
+      "validation": 3,
+      "testing": 3
+    },
+    "1500+2100": {
+      "training": 7,
+      "validation": 2,
+      "testing": 1
+    },
+    "1800+2100": {
+      "training": 9,
+      "validation": 2,
+      "testing": 2
+    },
+    "1500": {
+      "training": 15,
+      "validation": 2,
+      "testing": 4
+    },
+    "1800": {
+      "training": 13,
+      "validation": 2,
+      "testing": 3
+    },
+    "2100": {
+      "training": 40,
+      "validation": 8,
+      "testing": 9
+    }
+  },
+  "source": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\RP_refactor\\env",
+  "background_source_network_sha256": "81e71d20052ad5340080a27197b34888748576a4afdce5b8dec43336c704a4c4",
+  "background_acceptance": "Previously zero teleport/collision, all inserted/completed by7200s; step1s.",
+  "ev_rng_seed": "same background seed, no offset",
+  "ev_depart_window_s": [
+    180,
+    1620
+  ],
+  "min_od_distance_m": 500,
+  "ev_count": "ROUND_HALF_UP(actual background count * 0.01 or 0.02)",
+  "goal_policy": "uniform among passenger-reachable goals from actual first route edge",
+  "goal_nodes": [
+    "42496394",
+    "42490303",
+    "42474000"
+  ],
+  "goal_rng_seed": "same background seed reset per scenario",
+  "ev_goal_order": "actual XML EV ID order, preserving non-contiguous IDs",
+  "combined_checks": "600 background+EV load checks to1s; no full combined zero-teleport claim",
+  "simulation_config_change": "removed only unrelated startup route-files; other processing/routing settings retained",
+  "legacy_seed52": "regenerated18EV with seed10052; repaired18goals; separate archive, not mixed into new seed pool",
+  "destination": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\CSS_refactor\\env",
+  "operation": "copy existing RP partition; retain all source files",
+  "included": "300 background routes, 600 EV routes, network/config; generated 600 goal and 600 SOC files",
+  "excluded": "training, simulator execution, runtime code changes, model checkpoints"
+}

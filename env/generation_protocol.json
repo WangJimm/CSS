@@ -1,0 +1,30 @@
+{
+  "source_rp_dataset": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\RP_refactor\\env",
+  "network_sha256": "81e71d20052ad5340080a27197b34888748576a4afdce5b8dec43336c704a4c4",
+  "stations": [
+    "42474000",
+    "42490303",
+    "42496394"
+  ],
+  "stations_are": "synthetic charging-station locations at user-selected junctions; not verified real facilities",
+  "goal_policy": "uniform random among passenger/turn-reachable stations from actual first route edge",
+  "goal_seed_policy": "random.Random(background_seed), reset for each scenario; sorted candidate station IDs; EV XML order",
+  "goal_lists_matching_existing_RP": 600,
+  "soc_distribution": {
+    "family": "truncated normal by rejection sampling, then round to 6 decimal places",
+    "underlying_mean": 0.3,
+    "underlying_sd": 0.05,
+    "lower": 0.2,
+    "upper": 0.4,
+    "units": "battery state-of-charge fraction; 0.20 = 20%",
+    "note": "Underlying SD is before truncation; realized SD is smaller. No boundary clipping."
+  },
+  "soc_base_seed": 20261107,
+  "soc_seed_policy": "first 16 SHA256 bytes as big-endian integer of base_seed|flow|penetration|background_seed|actual_ev_id",
+  "soc_rng": "Python random.Random(seed).gauss(mean, sd), reject outside limits",
+  "list_alignment": "actual XML EV ID order, never assume contiguous EV numbers; explicit mapping in ev_assignments.csv",
+  "runtime_status": "Select this dataset with the manifest-based CSS environment loader.",
+  "goal_usage": "Current CSS agent chooses station at departure and does not load goal files. Saved random goals are reference/baseline assignments.",
+  "simulation_performed": false,
+  "training_performed": false
+}
