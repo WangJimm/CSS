@@ -1,0 +1,42 @@
+[
+  {
+    "environment": "env",
+    "mode": "dqngnn",
+    "episode": 2400,
+    "observations_and_q_values_identical": true,
+    "three_samples_checked": true,
+    "input_shape": {
+      "node_in": 7,
+      "edge_in": 8,
+      "action_features": 15
+    }
+  },
+  {
+    "environment": "env",
+    "mode": "dqn",
+    "episode": 2800,
+    "observations_and_q_values_identical": true,
+    "three_samples_checked": true,
+    "input_shape": 239
+  },
+  {
+    "environment": "new_env",
+    "mode": "dqngnn",
+    "episode": 2000,
+    "observations_and_q_values_identical": true,
+    "three_samples_checked": true,
+    "input_shape": {
+      "node_in": 7,
+      "edge_in": 8,
+      "action_features": 15
+    }
+  },
+  {
+    "environment": "new_env",
+    "mode": "dqn",
+    "episode": 2200,
+    "observations_and_q_values_identical": true,
+    "three_samples_checked": true,
+    "input_shape": 767
+  }
+]

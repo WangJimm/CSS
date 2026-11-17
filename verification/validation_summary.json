@@ -1,0 +1,10 @@
+{
+  "unit_tests_passed": 82,
+  "inference_parity_models": 4,
+  "sumo_smoke_combinations": 4,
+  "sumo_smoke_route_failures": 0,
+  "full_css_training_started": false,
+  "data_scope": "CSS complete env/new_env; no RP remove3 exclusions; existing CSS splits preserved.",
+  "portable_unit_tests_passed": 82,
+  "git_preserves_dataset_and_model_bytes": true
+}

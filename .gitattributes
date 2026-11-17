@@ -1,0 +1,3 @@
+# Preserve dataset/model checksums across Windows and Linux checkouts.
+* -text
+*.pt binary

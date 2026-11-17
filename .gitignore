@@ -1,14 +1,22 @@
-# 預設忽略所有檔案
-*
+__pycache__/
+*.py[cod]
+*.tmp
+.pytest_cache/
+.coverage
+*.pt
+!route_planning_agent/DQN/env/*.pt
+!route_planning_agent/DQN/new_env/*.pt
+parameters/
 
-# 允許檢查子資料夾
-!*/
+# Generated experiment artifacts
+logs/
+outputs/
+runs/
+comparison_results/*.tmp
+comparison_results/
 
-# 上傳 Python 程式碼
-!*.py
-
-# 上傳 repository 根目錄的 environment.yml
-!/environment.yml
-
-# 上傳 .gitignore 本身
-!.gitignore
+# Editor and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,21 @@
+{
+  "split_seed": 20261104,
+  "ratios": {
+    "training": 0.7,
+    "validation": 0.15,
+    "testing": 0.15
+  },
+  "unit": "background scenario with both EV variants",
+  "shared_seed_policy": "same numeric generator seed across demands in the same partition",
+  "shared_seed_count": 70,
+  "shared_seed_allocation": {
+    "training": 49,
+    "validation": 11,
+    "testing": 10
+  },
+  "source": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\RP_refactor\\new_env",
+  "destination": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\CSS_refactor\\new_env",
+  "operation": "copy existing RP partition; retain all source files",
+  "included": "300 background routes, 600 EV routes, network/config; generated 600 goal and 600 SOC files",
+  "excluded": "training, simulator execution, runtime code changes, model checkpoints"
+}

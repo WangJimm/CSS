@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-05-14 06:03:24.954939 by randomTrips.py v1_24_0+0000-b72eb3fabc8
+<configuration>
+    <net-file value="env.net.xml"/>
+    <output-trip-file value="ev_1800_p02_66.trips.xml"/>
+    <prefix value="EV_"/>
+    <trip-attributes value="departLane='best' departPos='random' departSpeed='max'"/>
+    <seed value="10066"/>
+    <min-distance value="500.0"/>
+    <begin value="180.0"/>
+    <end value="1620.0"/>
+    <insertion-rate value="45.0"/>
+    <random-depart value="True"/>
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <trip id="EV_0" depart="310.00" from="910349262#5" to="-5678262#11" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_1" depart="712.00" from="-5679540#16" to="1296006050#1" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_2" depart="720.00" from="5680945#9" to="112168192#0" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_3" depart="726.00" from="-1296006050#2" to="729125920#4" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_4" depart="745.00" from="5680945#12" to="275301508#0" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_5" depart="815.00" from="5682011#0" to="5680945#0" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_6" depart="918.00" from="-5682011#16" to="275304608#0" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_7" depart="933.00" from="-5679540#6" to="-1296006050#11" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_8" depart="1013.00" from="-5681815#1" to="5679519#14" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_9" depart="1015.00" from="5679519#11" to="-112168183#2" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_10" depart="1057.00" from="5677468#0" to="845948938#0" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_11" depart="1134.00" from="910349262#5" to="-5677780#6" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_12" depart="1138.00" from="221689133#0" to="5707635#2" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_13" depart="1242.00" from="842624848#0" to="-5707608#12" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_14" depart="1275.00" from="5679325#0" to="5679519#11" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_15" depart="1383.00" from="5679519#14" to="112168183#11" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_16" depart="1475.00" from="5680263#0" to="-5707635#5" departLane='best' departPos='random' departSpeed='max'/>
+    <trip id="EV_17" depart="1483.00" from="-5680266#1" to="5682011#5" departLane='best' departPos='random' departSpeed='max'/>
+</routes>

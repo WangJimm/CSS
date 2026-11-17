@@ -1,0 +1,50 @@
+[
+  {
+    "environment": "env",
+    "route_mode": "dqngnn",
+    "ev": "EV_0",
+    "background_source": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\CSS_refactor\\env\\training_data\\output_1800_1.rou.xml",
+    "simulation_steps": 922,
+    "route_failure_count": 0,
+    "total_reward": -16.6845,
+    "elapsed_seconds": 2.344000000040978,
+    "input_state_dim": null,
+    "status": "passed"
+  },
+  {
+    "environment": "env",
+    "route_mode": "dqn",
+    "ev": "EV_0",
+    "background_source": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\CSS_refactor\\env\\training_data\\output_1800_1.rou.xml",
+    "simulation_steps": 1050,
+    "route_failure_count": 0,
+    "total_reward": -17.75116666666667,
+    "elapsed_seconds": 2.062000000034459,
+    "input_state_dim": 239,
+    "status": "passed"
+  },
+  {
+    "environment": "new_env",
+    "route_mode": "dqngnn",
+    "ev": "EV_0",
+    "background_source": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\CSS_refactor\\new_env\\training_data\\output_2650_50001.rou.xml",
+    "simulation_steps": 1270,
+    "route_failure_count": 0,
+    "total_reward": -17.399833333333333,
+    "elapsed_seconds": 4.687999999965541,
+    "input_state_dim": null,
+    "status": "passed"
+  },
+  {
+    "environment": "new_env",
+    "route_mode": "dqn",
+    "ev": "EV_0",
+    "background_source": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\CSS_refactor\\new_env\\training_data\\output_2650_50001.rou.xml",
+    "simulation_steps": 1265,
+    "route_failure_count": 0,
+    "total_reward": -17.358166666666666,
+    "elapsed_seconds": 4.625,
+    "input_state_dim": 767,
+    "status": "passed"
+  }
+]

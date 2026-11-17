@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-05-14 06:03:27 by Eclipse SUMO duarouter Version 1.24.0
+<duarouterConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
+
+    <input>
+        <net-file value="env.net.xml"/>
+        <route-files value="ev_1800_p02_68.trips.xml"/>
+    </input>
+
+    <output>
+        <output-file value="ev_1800_p02_68.rou.xml"/>
+    </output>
+
+    <processing>
+        <remove-loops value="true"/>
+    </processing>
+
+</duarouterConfiguration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vehicle id="EV_0" depart="191.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="108.44" probability="1.00000000" edges="639118785#6 -5682011#7 845948939#0 -5679540#6 -5679540#2 -910349262#2 -910349262#0 842624848#0 275391270#0 275391274#0 275391272#0 275391273#0"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_1" depart="192.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="101.82" probability="1.00000000" edges="-5677780#1 1296006050#5 1296006050#8 1296006050#10 1296006050#12 910351052#0 910349265 910349263 910349262#0 910349262#1 910349262#5 910349262#6 910349262#8 542676016#0 -112168183#2"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_2" depart="264.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="62.72" probability="1.00000000" edges="1296006050#1 1296006050#3 1296006050#5 1296006050#8 1296006050#10 5680945#0 5680945#3 5680945#6 5680945#9"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_3" depart="368.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="73.56" probability="1.00000000" edges="-5678262#14 275301512#0 1275759855#0 275304609#0 910349263 910349262#0 910349262#1"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_4" depart="407.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="97.58" probability="1.00000000" edges="221689145#6 221689131#0 5680945#9 5680945#12 -112168183#13 -112168183#10 -5679871#7 5677469#0 5677469#3 -910349262#7"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_5" depart="443.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="122.15" probability="1.00000000" edges="-5679540#19 -5679540#16 -5679540#13 -5679540#9 -5679540#6 -5679540#2 -910349262#2 -910349262#0 842624848#0 275391270#0 5680945#3 5680945#6 5680945#9 274045193#0"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_6" depart="539.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="76.53" probability="1.00000000" edges="5680945#3 555768774#6 -275391275#1 5680263#0 910349265 5679519#0 275301507#0 5679540#3 5679540#7 5679540#10"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_7" depart="582.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="84.33" probability="1.00000000" edges="5679519#3 845948938#0 729125920#11 1275759855#0 737623212#0 460779249#0 -1296006050#9 -1296006050#6 -1296006050#4 -1296006050#2"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_8" depart="624.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="99.00" probability="1.00000000" edges="5678262#9 275301512#0 275301506#0 275301507#0 275301510#0 275301508#0 275301511#0 5707608#2 5707608#5 5707608#8"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_9" depart="676.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="84.67" probability="1.00000000" edges="5680945#12 -112168183#13 -112168183#10 -5679871#7 5677469#0 5677469#3 5682011#0 5682011#3 845948939#0"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_10" depart="706.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="94.10" probability="1.00000000" edges="849083092#0 -5677780#1 1296006050#5 1296006050#8 1296006050#10 1296006050#12 910351052#0 910349265 5679519#0 275301507#0 275301510#0 275301508#0"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_11" depart="760.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="99.08" probability="1.00000000" edges="-5680945#14 -5680945#11 -5680945#8 555768774#6 -275391275#1 5680263#0 910349265 5679519#0 5679519#3 5679519#6 5679519#9 5679519#11 276080902#0"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_12" depart="819.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="108.42" probability="1.00000000" edges="274045194#0 -5680945#11 -5680945#8 555768774#6 -275391275#1 5680263#0 910349265 5679519#0 275301507#0 5679540#3 5679540#7 5679540#10 5679540#14"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_13" depart="883.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="110.81" probability="1.00000000" edges="5682011#3 845948939#0 845948939#3 845948938#0 729125920#11 1275759855#0 275304608#0 112168192#0"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_14" depart="943.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="75.97" probability="1.00000000" edges="-910349264 -910351052#1 -1296006050#12 -1296006050#11 -1296006050#9 5676838#0 5678262#3 5678262#6 112168192#0"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_15" depart="1254.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="145.80" probability="1.00000000" edges="274045193#0 221689137#3 1022802568#0 -112168183#18 -112168183#13 -112168183#10 -112168183#7 -112168183#5 -112168183#2 5707608#0 5707608#2 5707608#5 5707608#8 276080909#0 5682011#11 5682011#14"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_16" depart="1348.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="165.44" probability="1.00000000" edges="221689137#0 5677468#0 221689133#3 -555768772#2 555768774#0 555768774#3 555768774#6 -275391275#1 5680263#0 910349265 5679519#0 5679519#3 5679519#6 5679519#9 5679519#11 5679519#14 5702460#4 729125920#1 729125920#4 729125920#6 729125920#8"/>
+        </routeDistribution>
+    </vehicle>
+    <vehicle id="EV_17" depart="1393.00" departLane="best" departPos="random" departSpeed="max">
+        <routeDistribution last="0">
+            <route cost="81.01" probability="1.00000000" edges="729125920#4 729125920#6 729125920#8 729125920#11 1275759855#0 275304609#0 910349263 910349262#0 5679871#0 5680818#0"/>
+        </routeDistribution>
+    </vehicle>
+</routes>

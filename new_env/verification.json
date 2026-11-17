@@ -1,0 +1,61 @@
+{
+  "status": "passed",
+  "dataset_root": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\CSS_refactor\\new_env",
+  "scenario_count": 600,
+  "counts": {
+    "training": {
+      "background_routes": 210,
+      "ev_routes": 420,
+      "goal_files": 420,
+      "power_files": 420,
+      "ev_assignments": 8890
+    },
+    "validation": {
+      "background_routes": 45,
+      "ev_routes": 90,
+      "goal_files": 90,
+      "power_files": 90,
+      "ev_assignments": 1905
+    },
+    "testing": {
+      "background_routes": 45,
+      "ev_routes": 90,
+      "goal_files": 90,
+      "power_files": 90,
+      "ev_assignments": 1905
+    }
+  },
+  "ev_assignments": 12700,
+  "source_route_sha256_verified": 900,
+  "route_xml_and_passenger_turns_verified": 900,
+  "unique_legal_route_turn_pairs": 1277,
+  "all_goals_reachable": true,
+  "independent_reachability_check": "sumolib passenger shortest paths; generator used reverse connection BFS",
+  "goals_matching_existing_RP": 600,
+  "station_assignment_counts": {
+    "446290091": 4256,
+    "1419061109": 4146,
+    "5984003368": 4298
+  },
+  "reachable_station_count_histogram": {
+    "3": 12700
+  },
+  "all_ev_ids_and_list_order_verified": true,
+  "all_soc_rng_values_reproduced": true,
+  "power_statistics": {
+    "count": 12700,
+    "mean": 0.29972235700787403,
+    "sample_sd": 0.04390372143057405,
+    "minimum": 0.200118,
+    "p05": 0.22653095,
+    "median": 0.299585,
+    "p95": 0.3738035,
+    "maximum": 0.399961
+  },
+  "no_cross_split_seed_or_hash_overlap": true,
+  "file_checksums_verified": 2115,
+  "source_files_retained": true,
+  "runtime_code_changed": false,
+  "simulation_performed": false,
+  "training_performed": false
+}

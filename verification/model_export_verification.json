@@ -1,0 +1,88 @@
+[
+  {
+    "environment": "env",
+    "filename": "dqngnn_best_better_ratio.pt",
+    "route_mode": "dqngnn",
+    "rp_variant": "proposed",
+    "sha256": "48d582636270ffa1fe146037c90af291a7799af010905353400daeda8805d759",
+    "source_rp_path": "outputs/old_env/proposed_seed42_old_env/gine_action_best_arrival.pt",
+    "source_sha256": "36fc4ae17e51bcb074934ce4627938cfd05f05b53c05b2e4e9dff7be62a6b206",
+    "selected_episode_one_based": 2400,
+    "shape": {
+      "num_nodes": 115,
+      "max_neighbors": 4,
+      "node_in": 7,
+      "edge_in": 8,
+      "gnn_hidden": 128,
+      "action_feature_dim": 15
+    },
+    "edge_feature_mode": "static_occupancy",
+    "network_tensors_identical": true,
+    "optimizer_and_replay_omitted": true,
+    "bytes": 2325550
+  },
+  {
+    "environment": "env",
+    "filename": "dqn_best_better_ratio.pt",
+    "route_mode": "dqn",
+    "rp_variant": "dqn_tls_time",
+    "sha256": "51f8b1310b793595329ecf0c77ba7ff51bb92a054954762cca3d638aea69363c",
+    "source_rp_path": "outputs/tls_old_env/dqn_tls_time_seed42/dqn_best_arrival.pt",
+    "source_sha256": "bcacae308e40f0f28c3d55294e12c023dd3debd2d21da22f48685a693bd2a89c",
+    "selected_episode_one_based": 2800,
+    "shape": {
+      "num_nodes": 115,
+      "max_neighbors": 4,
+      "time_normalizer_sec": 3600.0,
+      "observation_schema": "node_goal_tls_time_v1",
+      "action_feature_dim": 0
+    },
+    "edge_feature_mode": null,
+    "network_tensors_identical": true,
+    "optimizer_and_replay_omitted": true,
+    "bytes": 5245098
+  },
+  {
+    "environment": "new_env",
+    "filename": "dqngnn_best_better_ratio.pt",
+    "route_mode": "dqngnn",
+    "rp_variant": "proposed",
+    "sha256": "fb33c7c36b0a6362d8c85572cc2999751f6bb947c7dbb3f0aaba5167d6a13af4",
+    "source_rp_path": "outputs/tls_new_env/proposed/gine_action_best_arrival.pt",
+    "source_sha256": "10c1e890e7e6cb1f8aa727708d9f6cd24072edc47e1cf539627db43c9304e8ac",
+    "selected_episode_one_based": 2000,
+    "shape": {
+      "num_nodes": 379,
+      "max_neighbors": 4,
+      "node_in": 7,
+      "edge_in": 8,
+      "gnn_hidden": 128,
+      "action_feature_dim": 15
+    },
+    "edge_feature_mode": "static_occupancy",
+    "network_tensors_identical": true,
+    "optimizer_and_replay_omitted": true,
+    "bytes": 2325550
+  },
+  {
+    "environment": "new_env",
+    "filename": "dqn_best_better_ratio.pt",
+    "route_mode": "dqn",
+    "rp_variant": "dqn_tls_time",
+    "sha256": "c691f6af494575aab352bbbf10c14bcfc38b0559bec944ad5e3e6a8c48a13276",
+    "source_rp_path": "outputs/tls_new_env/dqn_tls_time_seed42/dqn_best_arrival.pt",
+    "source_sha256": "555fadcab5f5660326ab0dcd9ca2ac41643cb6119937735b56cfe856f25cd41c",
+    "selected_episode_one_based": 2200,
+    "shape": {
+      "num_nodes": 379,
+      "max_neighbors": 4,
+      "time_normalizer_sec": 3600.0,
+      "observation_schema": "node_goal_tls_time_v1",
+      "action_feature_dim": 0
+    },
+    "edge_feature_mode": null,
+    "network_tensors_identical": true,
+    "optimizer_and_replay_omitted": true,
+    "bytes": 5667498
+  }
+]
