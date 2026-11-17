@@ -40,6 +40,7 @@ from css.sumo import (
     find_tls_and_link_index_for_movement,
     get_evs_in_rou,
     remaining_routes_len,
+    reset_signal_topology_cache,
     time_to_green_and_remaining_green,
 )
 from dataclasses import dataclass
@@ -196,6 +197,7 @@ def DRL_train(
             load_args.append('--no-warnings')
         load_args.extend(['--error-log', str(sumo_error_log)])
         try:
+            reset_signal_topology_cache()
             traci.load(load_args)
         except (FatalTraCIError, TraCIException, OSError) as exc:
             raise RuntimeError(
@@ -570,6 +572,7 @@ def _summarize_method_metrics(store):
 
 
 def _run_evaluation_rollout(env, agent, cfg, route_planning_mode, rollout_mode = "agent"):
+    reset_signal_topology_cache()
     traci.load(cfg.load_args)
     env.episode_reset(cfg.evs, cfg.ev_power)
 

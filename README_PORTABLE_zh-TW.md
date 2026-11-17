@@ -67,4 +67,20 @@ python -m scripts.run_experiment --env env --agent linucb --route-mode dqn --mod
 
 ## 5. 已完成驗證
 
-四份模型的原始/可攜 tensor 完全相等；同一觀察/graph 下各三組 Q 值與 RP 完全相等。82 項 CSS 測試通過，四個環境×路由組合各以一輛 EV 與原背景車流完成 SUMO 檢查，均無路由失敗。這些是載入/相容性檢查，不是 CSS 完整 training 或 performance 評估。
+四份模型的原始/可攜 tensor 完全相等；同一觀察/graph 下各三組 Q 值與 RP 完全相等。88 項 CSS 測試通過，四個環境×路由組合各以一輛 EV 與原背景車流完成 SUMO 檢查，均無路由失敗。這些是載入/相容性檢查，不是 CSS 完整 training 或 performance 評估。
+
+## 6. TraCI 查詢加速（2026-11-17）
+
+更新後沿用原指令即可，不需要額外旗標。依 `edge_feature_mode` 只收集模型使用的動態 edge 指標；例如目前 Proposed 的 `static_occupancy` 只查 occupancy，其餘未使用的動態欄位仍為零。選用指標的 EMA 更新次數與時機維持原樣；debug 模式仍收集全部指標。
+
+固定號誌 ID/controlled links 會快取，但目前相位、切換時間與 program logic 仍即時讀取。標準 training、validation/testing、legacy Dijkstra 載入場景，以及建立 static graph 時，都會重設快取。若自訂腳本直接呼叫 `traci.load` 或修改號誌連接，請同時呼叫 `css.sumo.reset_signal_topology_cache()`。
+
+在相同 seed 的兩個 training prefix episode 及獨立 p02（30 EV）對照中，選站/路線事件、simulation steps、reward、final LinUCB 參數逐值相同。本機 RTX 2060 的短程計時如下，僅供參考：
+
+| 需求 / p / seed | 原版秒/episode | 新版秒/episode |
+|---|---:|---:|
+| 2950 / p01 / 40098 | 64.94 | 24.83 |
+| 2650 / p01 / 50076 | 46.58 | 18.27 |
+| 2950 / p02 / 40054 | 118.85 | 41.49 |
+
+實際速度依電腦與場景而異；這不是完整 1000 episode 的時間保證。路由模型權重、資料切分、0.5 秒步長、決策上限與學習規則均未更改。驗證摘要在 `verification/runtime_speedup.json`。已啟動的 Python 程序不會自動套用更新，需在下次啟動時使用新版。

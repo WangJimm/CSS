@@ -10,7 +10,10 @@ from torch_geometric.data import Data
 from traci import constants as tc
 
 from css.routing.topology import is_external_edge, is_external_node
-from css.sumo.traffic_signals import compute_signal_backbone_for_edges, build_inedge_to_tls_and_indices
+from css.sumo.traffic_signals import (
+    compute_signal_backbone_for_edges, build_inedge_to_tls_and_indices,
+    reset_signal_topology_cache, get_tls_ids,
+)
 
 DECAY = 0.95
 FLOOR = 0
@@ -114,6 +117,7 @@ def get_edge_index_v2(net):
 
 
 def prepare_static(net, *, prefer_controlled_tls=False):
+    reset_signal_topology_cache()
     data_static, edge_ids, nid2idx, adj, edge_len = get_edge_index_v2(net)
 
     # 補: eid2eidx、靜態 edge 特徵（對齊 PyG 的邊順序）
@@ -127,7 +131,7 @@ def prepare_static(net, *, prefer_controlled_tls=False):
         mn, mx = t.min(), t.max()
         return (t - mn) / (mx - mn + 1e-8), (mn, mx)
     ## 這邊插入交通號誌特徵
-    tls_pool = traci.trafficlight.getIDList()
+    tls_pool = get_tls_ids(traci_api=traci)
     controlled = build_inedge_to_tls_and_indices() if prefer_controlled_tls else {}
     pyg_edge_in_edge_ids = edge_ids
     pyg_edge_target_tls_ids = []
@@ -162,18 +166,22 @@ def prepare_static(net, *, prefer_controlled_tls=False):
     }
 
 
-def collect_dynamic_edge_traveltime(edge_ids, travel_time, MeanSpeed, Occupancy, debug = False):
+def collect_dynamic_edge_traveltime(edge_ids, travel_time, MeanSpeed, Occupancy, debug = False, *, metric_indices=(0, 1, 2)):
     # 回傳 shape = (E,) 的 numpy/torch array（與 edge_ids 順序一致）
     cur_time = traci.simulation.getTime()
+    requested = set(metric_indices)
+    if not requested.issubset({0, 1, 2}):
+        raise ValueError(f"Unknown dynamic edge metric indices: {requested}")
     vals = []
     for eid in edge_ids:
+        tt = ms2 = occ = 0.0
         try:
-            tt = traci.edge.getTraveltime(eid)  # 秒
-            tt = travel_time.update(eid, tt, cur_time)
-            ms1 = traci.edge.getLastStepMeanSpeed(eid)
-            ms2 = MeanSpeed.update(eid, ms1, cur_time)
-            occ = traci.edge.getLastStepOccupancy(eid)
-            occ = Occupancy.update(eid, occ, cur_time)
+            if 0 in requested:
+                tt = travel_time.update(eid, traci.edge.getTraveltime(eid), cur_time)
+            if 1 in requested:
+                ms2 = MeanSpeed.update(eid, traci.edge.getLastStepMeanSpeed(eid), cur_time)
+            if 2 in requested:
+                occ = Occupancy.update(eid, traci.edge.getLastStepOccupancy(eid), cur_time)
             # if debug and eid in ["5707608#2", "5707608#0"]:
             #     print(f"raw ms {ms1}, EMA ms {ms2}")
         except traci.TraCIException:
@@ -182,7 +190,7 @@ def collect_dynamic_edge_traveltime(edge_ids, travel_time, MeanSpeed, Occupancy,
             occ = np.nan
         vals.append([tt, ms2, occ])
     # 簡單處理缺失值
-    arr = np.array(vals, dtype=np.float32)
+    arr = np.asarray(vals, dtype=np.float32).reshape(-1, 3)
     # sys.exit()
     # if np.isnan(arr).any():
     #     # 用非 NaN 的均值填補
@@ -214,7 +222,16 @@ def build_data_runtime(static_pack, travel_time, MeanSpeed, Occupancy, debug = F
         raise ValueError(f"Unknown edge_feature_mode: {edge_feature_mode}")
 
     # 1) 取動態 travel time，並做簡單正規化
-    dym = collect_dynamic_edge_traveltime(edge_ids, travel_time, MeanSpeed, Occupancy, debug)  # (E,3)
+    # Keep each selected metric's EMA update cadence unchanged. Unused graph
+    # channels are masked to zero below and need no TraCI query or EMA update.
+    metric_indices = (0, 1, 2) if debug else {
+        "all": (0, 1, 2), "dynamic_only": (0, 1, 2), "static_only": (),
+        "travel_time_only": (0,), "avg_speed_only": (1,), "occupancy_only": (2,),
+        "static_travel_time": (0,), "static_occupancy": (2,),
+        "static_travel_time_occupancy": (0, 2),
+    }[edge_feature_mode]
+    dym = collect_dynamic_edge_traveltime(edge_ids, travel_time, MeanSpeed, Occupancy, debug,
+                                         metric_indices=metric_indices)  # (E,3)
     dym = torch.nan_to_num(dym, nan=0.0, posinf=0.0, neginf=0.0)
     
 

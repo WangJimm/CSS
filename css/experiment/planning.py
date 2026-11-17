@@ -16,7 +16,7 @@ from css.sumo import (
     remaining_routes_len,
     time_to_green_and_remaining_green,
 )
-from css.sumo.traffic_signals import lane2edge
+from css.sumo.traffic_signals import lane2edge, get_tls_ids, get_controlled_links
 
 def check_arrived(states, env):
     """
@@ -49,8 +49,8 @@ def oneHot(i, n, device="cpu"):
 
 def resolve_movement_out_lanes(cur_edge: str, out_edge_id: str) -> list[str]:
     lane_ids = []
-    for tls in traci.trafficlight.getIDList():
-        links = traci.trafficlight.getControlledLinks(tls)
+    for tls in get_tls_ids(traci_api=traci):
+        links = get_controlled_links(tls, traci_api=traci)
         for link_group in links:
             for in_lane, out_lane, _ in link_group:
                 if lane2edge(in_lane) == cur_edge and lane2edge(out_lane) == out_edge_id:

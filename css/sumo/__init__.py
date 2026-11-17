@@ -32,6 +32,7 @@ from .traffic_signals import (
     find_tls_and_link_index_for_movement,
     green_ratio_for_link_indices,
     lane2edge,
+    reset_signal_topology_cache,
     time_to_green_and_remaining_green,
 )
 
@@ -55,6 +56,7 @@ __all__ = [
     "internal_chains_for_route",
     "keep_first_edge_in_rou_file",
     "lane2edge",
+    "reset_signal_topology_cache",
     "reachable_edges_from",
     "reached_goal_junction",
     "remaining_routes_len",

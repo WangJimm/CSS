@@ -147,8 +147,8 @@
     },
     {
       "path": "css/experiment/planning.py",
-      "sha256": "ef7c57c0a41eafcbd54b9e575d1e9875d1f2fa4c8d57e62048c78741473b78ba",
-      "bytes": 15557
+      "sha256": "5722c695452e85c45be03f91fff85d3697f9592c8ab2e6fb606eedc1783463be",
+      "bytes": 15590
     },
     {
       "path": "css/experiment/scenarios.py",
@@ -157,8 +157,8 @@
     },
     {
       "path": "css/experiment/training.py",
-      "sha256": "658743e1e7f08c4a5c769ef84b2399caa6d912e0a1bae1c24bd1a5a245aa36b0",
-      "bytes": 40349
+      "sha256": "ba5bd787bfbb899566a006b57daba8423aa8c571f20b7f48ee4cd34799040c6f",
+      "bytes": 40461
     },
     {
       "path": "css/graph/__init__.py",
@@ -167,8 +167,8 @@
     },
     {
       "path": "css/graph/features.py",
-      "sha256": "80dfb4f579da7c0ee0f61a9d43276fada9999e3be92d972001ce18e6fb91084d",
-      "bytes": 14088
+      "sha256": "48b54eec272691d5c1507d44b9bdb7da8ff892b0da7d741afa1c893899654ce7",
+      "bytes": 15021
     },
     {
       "path": "css/legacy/__init__.py",
@@ -177,8 +177,8 @@
     },
     {
       "path": "css/legacy/dijkstra.py",
-      "sha256": "ac8247c6399d62bbd03d8928e688f4363de12a33c7ec7adcfd89c868d66404cf",
-      "bytes": 8667
+      "sha256": "1d111ae065a5de910c97d68b5afb56217f08127cbe66068e6c978027c35ba588",
+      "bytes": 8766
     },
     {
       "path": "css/reporting/__init__.py",
@@ -207,8 +207,8 @@
     },
     {
       "path": "css/sumo/__init__.py",
-      "sha256": "d7fbd66aed3d63712d9ec3fd3d51a4018fd08ceb0683e76b1cbc1dcbcf6f7e42",
-      "bytes": 1897
+      "sha256": "d5489e7729750cbb83634d711b89da093bf22428e9b72a81eed7178db1f038ee",
+      "bytes": 1965
     },
     {
       "path": "css/sumo/decisions.py",
@@ -237,8 +237,8 @@
     },
     {
       "path": "css/sumo/traffic_signals.py",
-      "sha256": "eb2c2257e13ce5a9483de89434808b44691414a84744a7bb049a4168410c932a",
-      "bytes": 5014
+      "sha256": "78ce05be9521a7262b3cf97fb017038eaa19927d0cffefafb2da8f2034be4987",
+      "bytes": 6105
     },
     {
       "path": "DQN/__init__.py",
@@ -14992,8 +14992,8 @@
     },
     {
       "path": "README_PORTABLE_zh-TW.md",
-      "sha256": "9c17fb89b0cb00a8356103bd5d5a2172ce56d5980c8df84ca7bd829b8a44e4d6",
-      "bytes": 5288
+      "sha256": "db987e4c6e1ce9c70f3aaa714e1961c03754d100ef4829e7a9ed865ff907831f",
+      "bytes": 6764
     },
     {
       "path": "REFACTOR_ISSUES.md",
@@ -15209,6 +15209,11 @@
       "path": "utils_sumo.py",
       "sha256": "86045b8730d1f218f7bdf31326c353b5c08514651e9ab5bdc62b21c1c2cb14ba",
       "bytes": 1625
+    },
+    {
+      "path": "tests/test_runtime_speedups.py",
+      "sha256": "ee8aba0e948451903cd7944c97a7891ee9d68422eef1b8d1726ad31f5152384b",
+      "bytes": 7779
     }
   ],
   "note": "Read-only deployment inventory; excludes generated outputs/logs and this manifest."

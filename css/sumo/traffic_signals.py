@@ -6,6 +6,43 @@ import traci
 
 GREEN_CHARS = set("gG")
 
+# IDs and lane connections are fixed within a loaded scenario. Phase/program
+# queries deliberately remain live. Reset at every SUMO load and graph setup.
+_topology_domain = None
+_tls_ids = None
+_controlled_links = {}
+
+
+def reset_signal_topology_cache():
+    global _topology_domain, _tls_ids
+    _topology_domain = None
+    _tls_ids = None
+    _controlled_links.clear()
+
+
+def _select_topology_domain(traci_api):
+    global _topology_domain
+    domain = traci_api.trafficlight
+    if domain is not _topology_domain:
+        reset_signal_topology_cache()
+        _topology_domain = domain
+    return domain
+
+
+def get_tls_ids(*, traci_api=None):
+    global _tls_ids
+    domain = _select_topology_domain(traci if traci_api is None else traci_api)
+    if _tls_ids is None:
+        _tls_ids = tuple(domain.getIDList())
+    return _tls_ids
+
+
+def get_controlled_links(tls, *, traci_api=None):
+    domain = _select_topology_domain(traci if traci_api is None else traci_api)
+    if tls not in _controlled_links:
+        _controlled_links[tls] = tuple(tuple(tuple(link) for link in group) for group in domain.getControlledLinks(tls))
+    return _controlled_links[tls]
+
 
 def _pick_active_logic(tls):
     """挑當前 program 對應的 Logic。"""
@@ -53,8 +90,8 @@ def build_inedge_to_tls_and_indices():
     掃一次所有號誌，把 (inEdge) -> {tls_id: [link_indices...]} 建起來，之後查表很快。
     """
     table = defaultdict(lambda: defaultdict(list))
-    for tls in traci.trafficlight.getIDList():
-        links = traci.trafficlight.getControlledLinks(tls)
+    for tls in get_tls_ids():
+        links = get_controlled_links(tls)
         for idx, group in enumerate(links):
             for in_lane, out_lane, via_lane in group:
                 in_edge = lane2edge(in_lane)
@@ -102,8 +139,8 @@ def find_tls_and_link_index_for_movement(in_edge_id: str, out_edge_id: str):
     回傳控制 (in_edge -> out_edge) 的號誌 ID 與其在 state 字串中的索引。
     若無號誌控制，回傳 (None, None)。
     """
-    for tls in traci.trafficlight.getIDList():
-        links = traci.trafficlight.getControlledLinks(tls)  # list of list[(inLane, outLane, viaLane)]
+    for tls in get_tls_ids():
+        links = get_controlled_links(tls)  # list of list[(inLane, outLane, viaLane)]
         for idx, link_group in enumerate(links):
             for in_lane, out_lane, via_lane in link_group:
                 if in_lane.startswith(in_edge_id) and out_lane.startswith(out_edge_id):

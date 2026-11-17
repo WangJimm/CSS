@@ -11,6 +11,7 @@ from css.routing.algorithms import cost_by_traveltime, dijkstra_path
 from css.sumo.distance import remaining_routes_len
 from css.sumo.route_files import count_evs_in_rou
 from css.sumo.routing import apply_full_route
+from css.sumo.traffic_signals import reset_signal_topology_cache
 
 
 def dijkstra_sim(net, static_pack, ev_ids, filesource, rd1 = None, rd2 = None, rd3 = None, rd4 = None, rd5 = None, test = False, set_goal = None, testing_paths = None,
@@ -113,6 +114,7 @@ def dijkstra_sim(net, static_pack, ev_ids, filesource, rd1 = None, rd2 = None, r
     load_args = ["-c", cfg_path, "--step-length", "0.5", "--route-files", f"{general}, {ev_routes}","--no-warnings", "--tls.all-off"] #不使用紅綠燈
     load_args = ["-c", cfg_path, "--step-length", "0.5", "--route-files", f"{general}, {ev_routes}","--no-warnings"]
     
+    reset_signal_topology_cache()
     traci.load(load_args)
 
     states = {ev: EVState(n_nodes=len(nid2idx)) for ev in evs}
