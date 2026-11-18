@@ -53,6 +53,9 @@ class DQNNetworks(nn.Module):
 
 
 class route_DQN:
+    # The node/goal/TLS/time observation fully defines this policy input.
+    requires_route_graph = False
+
     def __init__(
         self,
         shape: DQNShapeConfig,

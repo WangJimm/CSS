@@ -68,7 +68,7 @@ python -m scripts.run_experiment --env env --agent linucb --route-mode dqn --mod
 
 ## 5. 已完成驗證
 
-四份模型的原始/可攜 tensor 完全相等；同一觀察/graph 下各三組 Q 值與 RP 完全相等。目前 95 項 CSS 測試通過，四個環境×路由組合各以一輛 EV 與原背景車流完成 SUMO 檢查，均無路由失敗。這些是載入/相容性檢查，不是 CSS 完整 training 或 performance 評估。
+四份模型的原始/可攜 tensor 完全相等；同一觀察/graph 下各三組 Q 值與 RP 完全相等。目前 100 項 CSS 測試通過，四個環境×路由組合各以一輛 EV 與原背景車流完成 SUMO 檢查，均無路由失敗。這些是載入/相容性檢查，不是 CSS 完整 training 或 performance 評估。
 
 ## 6. TraCI 查詢加速（2026-11-17）
 
@@ -99,3 +99,33 @@ python -m scripts.run_experiment --env env --agent linucb --route-mode dqngnn --
 資料生成與獨立驗證工具為 `scripts/prepare_css_dataset.py`、`scripts/verify_css_dataset.py`；
 詳細切分、逐車 SOC/goal 對應和雜湊保存在 `env/` 的 manifest 與 protocol 檔案。
 原先的 CSS 資料已保留在本機外部備份目錄，未混入目前的三個分區。
+
+## 8. DQN RP 圖資料加速（2026-11-18）
+
+原本的 DQN＋DQN 指令不需要更改。`--route-mode dqn` 現在明確宣告不使用路由 graph，
+略過未使用的全路網 travel time／mean speed／occupancy 與候選車道特徵建構。
+DQN 真正使用的 node／goal／局部號誌／simulation time、合法鄰居與路由提交維持原樣。
+Visit history 使用既有更新函式，SUMO 步長、決策上限、reward、資料、RP 權重及學習頻率不變。
+
+Proposed 與未明確宣告可省略 graph 的路由方法維持原流程。若選站模型本身使用圖觀察
+（例如 paper_baseline），即使搭配 DQN RP，也保留共享 EMA 的原更新時機與圖資料收集，
+避免影響其選站輸入。標準 training／validation／testing 都會套用此判斷。
+
+同 seed 五組完整場景（new env 兩組、old env 三組含 p02）的選站／路線事件、reward、
+模擬步數、replay、EPSILON、亂數狀態與最終網路參數逐值相同；另以錄得的 transition
+填滿 replay，兩種環境各核對 10 次 CUDA 學習更新，loss 與兩個網路亦逐值相同。
+這不是完整 250 episode 暖身後的續訓實驗。
+
+本機 RTX2060 單次計時（含 profiler 開銷）：
+
+| 環境／需求／比例 | 原版秒/episode | 正式加速版秒/episode |
+|---|---:|---:|
+| new_env／2950／p01 | 55.22 | 6.64 |
+| new_env／2650／p01 | 47.03 | 5.57 |
+| env／2100／p01 | 10.38 | 2.74 |
+| env／1500／p01 | 7.61 | 1.65 |
+| env／2100／p02 | 20.22 | 3.96 |
+
+速度依設備及場景而異；以上不是另一台電腦或完整 1000 episode 的時間保證。
+驗證紀錄：`verification/dqn_route_speedup.json`。已啟動的 Python 程序不會自動使用新程式，
+更新在下次啟動時生效。

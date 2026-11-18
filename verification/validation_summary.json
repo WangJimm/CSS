@@ -1,11 +1,11 @@
 {
-  "unit_tests_passed": 95,
+  "unit_tests_passed": 100,
   "inference_parity_models": 4,
   "sumo_smoke_combinations": 4,
   "sumo_smoke_route_failures": 0,
   "full_css_training_started": false,
   "data_scope": "Complete env/new_env; both 70/15/15 per demand; no RP remove3/remove4 exclusions.",
-  "portable_unit_tests_passed": 95,
+  "portable_unit_tests_passed": 100,
   "git_preserves_dataset_and_model_bytes": true,
   "runtime_speedup_regression_cases": 3,
   "runtime_speedup_final_parameters_identical": true,
@@ -21,5 +21,8 @@
   },
   "old_env_independent_validation": true,
   "old_env_route_smoke_modes": 3,
-  "old_env_full_episode_smoke": 1
+  "old_env_full_episode_smoke": 1,
+  "dqn_route_speedup_regression_cases": 5,
+  "dqn_route_learning_parity_environments": 2,
+  "dqn_route_graph_station_selector_ema_protected": true
 }

@@ -1,0 +1,135 @@
+{
+  "status": "passed",
+  "cases": [
+    {
+      "environment": "new_env",
+      "flow": 2950,
+      "p": 1,
+      "seed": 40098,
+      "evs": 15,
+      "before_seconds": 55.22469940001611,
+      "after_seconds": 6.639040599926375,
+      "speedup": 8.318174677321378,
+      "simulation_steps": 3590,
+      "trace_sha256": "197e5e3c55bfe4ff78f29e21ccca3a9e5729215ffa936215c1d57cbf645ec92f",
+      "route_failures": 0,
+      "identical_training_results_replay_and_weights": true,
+      "global_edge_rpc": 0,
+      "unused_candidate_lane_queries": 0
+    },
+    {
+      "environment": "new_env",
+      "flow": 2650,
+      "p": 1,
+      "seed": 50076,
+      "evs": 13,
+      "before_seconds": 47.028994400054216,
+      "after_seconds": 5.572381000034511,
+      "speedup": 8.439658810078305,
+      "simulation_steps": 3510,
+      "trace_sha256": "49884a7933e68d69b6445eb164932fc6a4738423e7dde82787692cfa20dab30f",
+      "route_failures": 0,
+      "identical_training_results_replay_and_weights": true,
+      "global_edge_rpc": 0,
+      "unused_candidate_lane_queries": 0
+    },
+    {
+      "environment": "env",
+      "flow": 2100,
+      "p": 1,
+      "seed": 30203,
+      "evs": 11,
+      "before_seconds": 10.383478799951263,
+      "after_seconds": 2.743919999920763,
+      "speedup": 3.7841769440257402,
+      "simulation_steps": 3307,
+      "trace_sha256": "7ecc362b0ade17e65ebe1b94969bef1c830023c07d49c35b5cc518f46de711b3",
+      "route_failures": 0,
+      "identical_training_results_replay_and_weights": true,
+      "global_edge_rpc": 0,
+      "unused_candidate_lane_queries": 0
+    },
+    {
+      "environment": "env",
+      "flow": 1500,
+      "p": 1,
+      "seed": 30097,
+      "evs": 8,
+      "before_seconds": 7.614526499994099,
+      "after_seconds": 1.6459892999846488,
+      "speedup": 4.626109355671459,
+      "simulation_steps": 3106,
+      "trace_sha256": "44309a17be819b9bbd03f622558c06b4cee74241c2e7a95d22539c5bf9d408fa",
+      "route_failures": 0,
+      "identical_training_results_replay_and_weights": true,
+      "global_edge_rpc": 0,
+      "unused_candidate_lane_queries": 0
+    },
+    {
+      "environment": "env",
+      "flow": 2100,
+      "p": 2,
+      "seed": 30120,
+      "evs": 21,
+      "before_seconds": 20.215208600042388,
+      "after_seconds": 3.96450810006354,
+      "speedup": 5.099045856336728,
+      "simulation_steps": 3575,
+      "trace_sha256": "3965d3ba117e3eba24e918006feb04aeca0ab50976baa8978bd4ae9c7778bd15",
+      "route_failures": 0,
+      "identical_training_results_replay_and_weights": true,
+      "global_edge_rpc": 0,
+      "unused_candidate_lane_queries": 0
+    }
+  ],
+  "learning_update_regressions": [
+    {
+      "environment": "new_env",
+      "updates": 10,
+      "batch_size": 64,
+      "device": "cuda",
+      "losses_and_both_networks_identical": true,
+      "note": "Repeated recorded real transitions to fill replay; independent update regression, not a resumed post-warmup full episode."
+    },
+    {
+      "environment": "env",
+      "updates": 10,
+      "batch_size": 64,
+      "device": "cuda",
+      "losses_and_both_networks_identical": true,
+      "note": "Repeated recorded real transitions to fill replay; independent update regression, not a resumed post-warmup full episode."
+    }
+  ],
+  "same_algorithm_observations_weights_sumo_step_and_limits": true,
+  "full_training_started": false,
+  "production_implementation": "Explicit requires_route_graph=False on DQN RP; unknown/GNN consumers retain graph building. Preserve visit bookkeeping and all live local observations.",
+  "proposed_compatibility_smoke": [
+    {
+      "environment": "env",
+      "route_mode": "dqngnn",
+      "ev": "EV_0",
+      "background_source": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\CSS_refactor\\env\\training_data\\output_1500_30000.rou.xml",
+      "simulation_steps": 609,
+      "route_failure_count": 0,
+      "total_reward": -14.067333333333332,
+      "elapsed_seconds": 0.7970000000204891,
+      "input_state_dim": null,
+      "status": "passed"
+    },
+    {
+      "environment": "new_env",
+      "route_mode": "dqngnn",
+      "ev": "EV_0",
+      "background_source": "C:\\Users\\Master\\Documents\\Codex\\2026-08-22\\new-chat\\CSS_refactor\\new_env\\training_data\\output_2650_50001.rou.xml",
+      "simulation_steps": 1270,
+      "route_failure_count": 0,
+      "total_reward": -17.399833333333333,
+      "elapsed_seconds": 2.969000000040978,
+      "input_state_dim": null,
+      "status": "passed"
+    }
+  ],
+  "graph_station_selector_preserves_shared_ema_cadence": true,
+  "local_unit_tests": 100,
+  "portable_unit_tests": 100
+}

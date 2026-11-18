@@ -117,6 +117,33 @@ def build_candidate_action_features(env, graph_data, st, cur_edge, outgoing_edge
     return torch.stack(rows, dim=0)
 
 
+
+def _prepare_route_graph(env, st, cur_edge, outgoing_edges, signal_state,
+                         source, target, travel_time, mean_speed, occupancy):
+    """Collect graph observations only for route policies that consume them."""
+    requires_graph = (getattr(env.route_planning_agent, "requires_route_graph", True)
+                      or getattr(env, "charging_uses_graph_state", False))
+    if requires_graph:
+        graph = build_data_runtime(
+            env.sumo_static_pack, travel_time, mean_speed, occupancy,
+            edge_feature_mode=getattr(env.route_planning_agent, "edge_feature_mode", None) or "all",
+        )
+    else:
+        # Preserve visit-history bookkeeping without fetching global edge data.
+        graph = env.sumo_static_pack["data_static"]
+    st.recent_nodes.append(source)
+    graph, st.ever_visit, st.visit_age = dynamic_node_feature_update(
+        graph, target, st.recent_nodes, st.ever_visit, st.visit_age,
+    )
+    if requires_graph:
+        graph.action_features = build_candidate_action_features(
+            env, graph, st, cur_edge, outgoing_edges, st.neighbors, signal_state,
+        )
+        st.data_t = graph
+    else:
+        st.data_t = None
+
+
 def first_plan(ev, st, env, travel_time, MeanSpeed, Occupancy, evaluate = True):
     """
     1. 獲得EV現在位置
@@ -173,24 +200,9 @@ def first_plan(ev, st, env, travel_time, MeanSpeed, Occupancy, evaluate = True):
     """
     source = env.nid2idx[to_node]
     target = env.nid2idx[st.goal_cs]
-    st.data_t = build_data_runtime(
-        env.sumo_static_pack,
-        travel_time,
-        MeanSpeed,
-        Occupancy,
-        edge_feature_mode=getattr(env.route_planning_agent, "edge_feature_mode", None) or "all",
-    )
-    st.recent_nodes.append(env.nid2idx[to_node])
-    st.data_t, st.ever_visit, st.visit_age = dynamic_node_feature_update(st.data_t, env.nid2idx[st.goal_cs],
-                                                                    st.recent_nodes, st.ever_visit, st.visit_age)
-    st.data_t.action_features = build_candidate_action_features(
-        env,
-        st.data_t,
-        st,
-        cur_edge,
-        b_sorted,
-        st.neighbors,
-        tmp_traffic_light_state,
+    _prepare_route_graph(
+        env, st, cur_edge, b_sorted, tmp_traffic_light_state,
+        source, target, travel_time, MeanSpeed, Occupancy,
     )
 
     
@@ -265,24 +277,9 @@ def second_plan(ev, st, env, travel_time, MeanSpeed, Occupancy, evaluate = True)
     """
     source = env.nid2idx[to_node]
     target = env.nid2idx[st.goal_cs]
-    st.data_t = build_data_runtime(
-        env.sumo_static_pack,
-        travel_time,
-        MeanSpeed,
-        Occupancy,
-        edge_feature_mode=getattr(env.route_planning_agent, "edge_feature_mode", None) or "all",
-    )
-    st.recent_nodes.append(env.nid2idx[to_node])
-    st.data_t, st.ever_visit, st.visit_age = dynamic_node_feature_update(st.data_t, env.nid2idx[st.goal_cs],
-                                                                    st.recent_nodes, st.ever_visit, st.visit_age)
-    st.data_t.action_features = build_candidate_action_features(
-        env,
-        st.data_t,
-        st,
-        cur_edge,
-        b_sorted,
-        st.neighbors,
-        tmp_traffic_light_state,
+    _prepare_route_graph(
+        env, st, cur_edge, b_sorted, tmp_traffic_light_state,
+        source, target, travel_time, MeanSpeed, Occupancy,
     )
 
 

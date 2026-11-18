@@ -37,6 +37,9 @@ def compress_route_on_depart(
     truncate_departure_route=True,
 ):
     """把剛出發的 EV route 壓成 [currentEdge], 並且做出cs選擇"""
+    # Graph-based station selectors share these EMAs with route observations.
+    # Retain their original update cadence even when the route DQN ignores graphs.
+    env.charging_uses_graph_state = bool(getattr(agent, "uses_graph_state", False))
     for vid in traci.simulation.getDepartedIDList():
         """
         1. 把EV route 壓縮成[cur edge]
