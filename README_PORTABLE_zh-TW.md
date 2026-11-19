@@ -129,3 +129,22 @@ Proposed 與未明確宣告可省略 graph 的路由方法維持原流程。若�
 速度依設備及場景而異；以上不是另一台電腦或完整 1000 episode 的時間保證。
 驗證紀錄：`verification/dqn_route_speedup.json`。已啟動的 Python 程序不會自動使用新程式，
 更新在下次啟動時生效。
+
+## 9. Testing 參考策略開關（2026-11-19）
+
+在既有 testing 指令加上 `--no-eval-references`，只測指定的 CSS agent 與 RP 組合，
+略過額外的「最短等待選站」及「最近充電站選站」模擬。例如：
+
+```powershell
+python -m scripts.run_experiment --env new_env --agent linucb --route-mode dqngnn --mode eval --seed 42 --checkpoint outputs/all_new_env/linucb_route_dqngnn_final.pt --no-eval-references
+```
+
+`--env env`、四種選站方法、所有 RP 模式及 `--higher-evaluation` 都可使用這個開關。
+paper_baseline＋Dijkstra 自己的模型測試仍會執行；略過的是額外參考策略。
+不加開關就維持原本三種 rollout。開關只影響 `--mode eval` 或 `both` 的最後 testing，
+不改 training 或訓練期間 validation；停用後者請用 `--no-train-evaluation`。
+
+JSON 保留指定模型的完整 `methods.agent`，未執行的 `methods.min_waiting` 與
+`methods.shortest` 為 `null`，並在 `evaluation_options` 記錄開關；終端顯示 skipped，
+不會把略過的策略顯示成成本為零。標準 testing 每個方法仍讀取完整 90 場景，
+單環境四種方法由 1080 次模擬減為 360 次，實際時間依各場景而異。

@@ -97,6 +97,11 @@ def parse_args(argv=None) -> argparse.Namespace:
     parser.add_argument('--linucb-ridge', type=float, default=1.0, help='LinUCB ridge regularization.')
     parser.add_argument('--linucb-linear-only', action='store_true', help='Disable squared LinUCB features.')
     parser.add_argument("--no-train-evaluation", action="store_true", help="Disable evaluation during training.")
+    parser.add_argument(
+        "--no-eval-references",
+        action="store_true",
+        help="Skip min-waiting and nearest-station reference rollouts in final testing (eval/both); training validation is unchanged.",
+    )
     evaluation_group = parser.add_mutually_exclusive_group()
     evaluation_group.add_argument(
         "--higher-evaluation",
@@ -288,12 +293,13 @@ def main(argv=None):
         TRAIN_EPISODES = args.episodes
         RUN_EVALUATION = not args.no_train_evaluation
         RUN_HIGHER_EVALUATION = args.higher_evaluation
+        RUN_EVAL_REFERENCES = not args.no_eval_references
 
         ACTIVE_ROUTE_MODE = requested_route_mode
         print(
             f"[config] env={environment.name} data={environment.root} stations={cs_loc} mode={args.mode} agent={USE_AGENT} route_mode={ACTIVE_ROUTE_MODE} "
             f"episodes={TRAIN_EPISODES} training_start={TRAIN_START_EPISODE} "
-            f"train_eval={RUN_EVALUATION} higher_eval={RUN_HIGHER_EVALUATION} use_gui={args.use_gui} "
+            f"train_eval={RUN_EVALUATION} higher_eval={RUN_HIGHER_EVALUATION} eval_references={RUN_EVAL_REFERENCES} use_gui={args.use_gui} "
             f"route_checkpoint={route_checkpoint} charging_checkpoint={args.checkpoint}"
         )
 
@@ -361,21 +367,28 @@ def main(argv=None):
 
         if RUN_HIGHER_EVALUATION:
             eval_cost, min_waiting_cost, shortest_cost, eval_data_bag, min_waiting_data_bag, shortest_data_bag, detail = \
-                higher_evaluation(env, active_agent, using_min_waiting=True, using_shortest=True, route_planning_mode=ACTIVE_ROUTE_MODE, return_details=True, environment=environment)
+                higher_evaluation(env, active_agent, using_min_waiting=RUN_EVAL_REFERENCES, using_shortest=RUN_EVAL_REFERENCES, route_planning_mode=ACTIVE_ROUTE_MODE, return_details=True, environment=environment)
             eval_detail_filename = f"higher_evaluation_detail_{USE_AGENT}_{ACTIVE_ROUTE_MODE}_{time.strftime('%Y%m%d-%H%M%S')}.json"
         else:
             eval_cost, min_waiting_cost, shortest_cost, eval_data_bag, min_waiting_data_bag, shortest_data_bag, detail = \
-                evaluation(env, active_agent, using_min_waiting=True, using_shortest=True, route_planning_mode=ACTIVE_ROUTE_MODE, return_details=True, environment=environment)
+                evaluation(env, active_agent, using_min_waiting=RUN_EVAL_REFERENCES, using_shortest=RUN_EVAL_REFERENCES, route_planning_mode=ACTIVE_ROUTE_MODE, return_details=True, environment=environment)
             eval_detail_filename = f"evaluation_detail_{USE_AGENT}_{ACTIVE_ROUTE_MODE}_{time.strftime('%Y%m%d-%H%M%S')}.json"
 
         eval_output_dir = environment.output_dir
         eval_output_dir.mkdir(parents=True, exist_ok=True)
         eval_detail_path = eval_output_dir / eval_detail_filename
+        detail["evaluation_options"] = {
+            "using_min_waiting": RUN_EVAL_REFERENCES,
+            "using_shortest": RUN_EVAL_REFERENCES,
+        }
         save_training_results(detail, eval_detail_path)
 
         print(f"agent {fmt_triplet(eval_data_bag)}")
-        print(f"min waiting {fmt_triplet(min_waiting_data_bag)}")
-        print(f"shortest {fmt_triplet(shortest_data_bag)}")
+        if RUN_EVAL_REFERENCES:
+            print(f"min waiting {fmt_triplet(min_waiting_data_bag)}")
+            print(f"shortest {fmt_triplet(shortest_data_bag)}")
+        else:
+            print("reference strategies skipped (min waiting / nearest station)")
         print(f"detail saved to {eval_detail_path}")
 
         # # eval_cost, _, data, rand_data = evaluation(env, agent, route_planning_mode = ROUTE_PLANNING_MODE[2]) # ?牡ijkstra ?楝敺???
