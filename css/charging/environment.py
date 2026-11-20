@@ -50,7 +50,10 @@ def normalize_state_minmax(state, state_min, state_max):
 
 
 class Env(object):
-    def __init__(self, cs_loc, sumo_static_pack, net, using_gnn = True, *, environment_name="env", route_mode=None, route_checkpoint=None):
+    def __init__(self, cs_loc, sumo_static_pack, net, using_gnn = True, *, environment_name="env", route_mode=None, route_checkpoint=None, chargers_per_station=3):
+        if isinstance(chargers_per_station, bool) or not isinstance(chargers_per_station, (int, np.integer)) or chargers_per_station < 1:
+            raise ValueError("chargers_per_station must be a positive integer")
+        self.chargers_per_station = int(chargers_per_station)
         self.environment_name = environment_name
         self.action_dim = len(cs_loc) ## action = 有幾個CS要選
         self.state_dim = 2*len(cs_loc) + 1   
@@ -149,7 +152,7 @@ class Env(object):
         4.這幾個充電站的充電花費
         """
         #充電樁數量
-        self.cs_pile = 3
+        self.cs_pile = getattr(self, "chargers_per_station", 3)
         # self.usage = np.zeros((len(self.cs_loc),self.cs_pile)) #使用狀況 shape [充電站數量, 每個充電站的充電樁數量]
         # self.eat = np.zeros(len(self.cs_loc)) # 最早可充電時間 shape [充電站數量]
         # self.avai_port = np.zeros(len(self.cs_loc)) # pointer, 指向目前空閒的充電樁數量
@@ -165,7 +168,7 @@ class Env(object):
         for i, cs in enumerate(self.cs_loc):
             self.charging_cost.append(i+7)
             self.cs_Queue[cs] = []
-            self.usage[cs] = [0,0,0]
+            self.usage[cs] = [0.0] * self.cs_pile
             self.eat[cs] = 0
             self.avai_port[cs] = 0
             self.end_waiting_times[cs] = []

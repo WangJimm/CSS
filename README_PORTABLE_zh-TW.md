@@ -148,3 +148,46 @@ JSON 保留指定模型的完整 `methods.agent`，未執行的 `methods.min_wai
 `methods.shortest` 為 `null`，並在 `evaluation_options` 記錄開關；終端顯示 skipped，
 不會把略過的策略顯示成成本為零。標準 testing 每個方法仍讀取完整 90 場景，
 單環境四種方法由 1080 次模擬減為 360 次，實際時間依各場景而異。
+
+
+## Validation：比較每站 3／4 樁（既有模型，不重新訓練）
+
+每站預設 3 樁；`--chargers-per-station 4` 增加平行服務數，單樁充電速度不變，沒有加入共享供電限制。
+所有 CS 使用相同指定樁數，場景重設後保留設定。此測試衡量三樁訓練模型對四樁容量的適應效果，不等同四樁重新訓練的結果。
+
+在 repository 根目錄、已啟用 Python/SUMO 環境執行：
+
+```powershell
+python -m scripts.run_validation --env new_env --chargers-per-station 4
+```
+
+依序執行 LinUCB＋Proposed RP、SACD＋Proposed RP、eDQN＋DQN RP、Paper baseline＋Dijkstra RP；
+各跑同一批完整 90 個 validation 場景，只跑 agent，不跑 min-waiting／nearest 參考策略，不更新模型。
+使用 `--env env` 可跑舊環境；加 `--agent linucb` 等參數可只跑一種。
+
+輸出分開存入 `outputs/new_env/validation_cs4/`（三樁為 `validation_cs3/`），
+舊環境則是 `outputs/env/validation_cs4/`，不覆蓋先前的 `validation/` 結果。
+JSON 記錄容量、validation split、CS/RP checkpoint 路徑與 SHA256、seed 以及 eval 模式。
+
+模型需先放好，這個命令不會下載或重訓 checkpoint：
+
+- 新環境：`outputs/all_new_env/linucb_route_dqngnn_final.pt`、`sacd_route_dqngnn.pt`、`dqn_route_dqn.pt`、`paper_baseline_route_dijkstra.pt`。
+- 舊環境：`outputs/all_old_env/linucb_route_dqngnn_701515_final.pt`、`sacd_route_dqngnn_701515_final.pt`、`paper_baseline_route_dijkstra_701515_final.pt`；
+  eDQN 使用重新訓練的 `parameters/env/edqn_route_dqn_exploration_v2_final.pt`。
+- RP 使用原本 `route_planning_agent/DQN/<env>/` 內對應 checkpoint。
+
+先檢查檔案（不啟動 SUMO）：
+
+```powershell
+python -m scripts.run_validation --env new_env --chargers-per-station 4 --check-only
+```
+
+若參數放在其他位置，可單獨呼叫原生入口：
+
+```powershell
+python -m scripts.run_experiment --env new_env --agent linucb --route-mode dqngnn --mode eval --eval-split validation --chargers-per-station 4 --no-eval-references --seed 42 --checkpoint outputs/all_new_env/linucb_route_dqngnn_final.pt
+```
+
+`--eval-split` 預設仍為 testing；validation 僅允許 `--mode eval` 與標準資料集。
+可用 `--evaluation-output-dir` 指定其他輸出位置。要改訓練容量可在 train 命令指定 `--chargers-per-station`，
+但本輪只使用既有模型評估，不會啟動新的訓練。

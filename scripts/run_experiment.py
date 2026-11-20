@@ -7,6 +7,7 @@ simulate cs navigation
 """
 import os, sys
 import argparse
+import hashlib
 import random
 import numpy as np
 import torch
@@ -74,9 +75,22 @@ def default_route_mode_for_agent(agent_name: str) -> str:
     raise ValueError(f"Unknown agent: {agent_name}")
 
 
+def positive_int(value):
+    number = int(value)
+    if number < 1:
+        raise argparse.ArgumentTypeError("must be a positive integer")
+    return number
+
+
 def parse_args(argv=None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Train or evaluate CS-selection agents.")
     parser.add_argument("--env", choices=ENVIRONMENT_NAMES, default="env", help="Select the road network and its data splits.")
+    parser.add_argument("--chargers-per-station", type=positive_int, default=3,
+                        help="Parallel chargers at every CS; default: 3. Per-charger charging speed is unchanged.")
+    parser.add_argument("--eval-split", choices=("testing", "validation"), default="testing",
+                        help="Dataset for final evaluation. Validation requires --mode eval.")
+    parser.add_argument("--evaluation-output-dir", type=Path, default=None,
+                        help="Optional directory for final evaluation JSON.")
     parser.add_argument("--check-data", action="store_true", help="Validate selected input assets and exit without SUMO or training.")
     parser.add_argument("--agent", choices=AGENT_CHOICES, default="sacd", help="CS-selection agent to use.")
     parser.add_argument("--mode", choices=MODE_CHOICES, default="train", help="Run training, evaluation, or both.")
@@ -123,6 +137,8 @@ def parse_args(argv=None) -> argparse.Namespace:
 
 def main(argv=None):
     args = parse_args(argv)
+    if args.eval_split == "validation" and (args.mode != "eval" or args.higher_evaluation):
+        raise ValueError("--eval-split validation requires --mode eval and standard evaluation")
     environment = resolve_environment(args.env)
     if args.higher_evaluation:
         require_higher_evaluation_assets(environment.root)
@@ -220,7 +236,8 @@ def main(argv=None):
 
         cs_loc = list(environment.stations)
         env = Env(cs_loc, static_pack, net, environment_name=environment.name,
-                  route_mode=requested_route_mode, route_checkpoint=route_checkpoint)
+                  route_mode=requested_route_mode, route_checkpoint=route_checkpoint,
+                  chargers_per_station=args.chargers_per_station)
         save_floder = str(RUN_DIR / "training_data_power")
 
         # """
@@ -356,11 +373,15 @@ def main(argv=None):
         # plot_train_process(total_eval_rewards, min_waiting_eval_rewards,shortest_eval_rewards, savename = "total eval rewards")
 
         # ??銝oute planning?券????迤撣?
-        print("testing ========================================")
+        print(f"{args.eval_split} ========================================")
         if args.checkpoint is None:
             active_agent.load_para()
         else:
             active_agent.load_para(args.checkpoint)
+        # Evaluation must not keep dropout enabled in a loaded station policy.
+        for module in vars(active_agent).values():
+            if isinstance(module, torch.nn.Module):
+                module.eval()
         # eval_cost, _, data, rand_data = evaluation(env, agent, route_planning_mode = ROUTE_PLANNING_MODE[0]) # ?牡qngnn ?楝敺???
         # eval_cost, rand_cost, shortest_cost, eval_data_bag, rand_data_bag, shortest_data_bag = \
         #     evaluation(env, active_agent, using_min_waiting=True, using_shortest = True, route_planning_mode = ROUTE_PLANNING_MODE[0])
@@ -371,16 +392,47 @@ def main(argv=None):
             eval_detail_filename = f"higher_evaluation_detail_{USE_AGENT}_{ACTIVE_ROUTE_MODE}_{time.strftime('%Y%m%d-%H%M%S')}.json"
         else:
             eval_cost, min_waiting_cost, shortest_cost, eval_data_bag, min_waiting_data_bag, shortest_data_bag, detail = \
-                evaluation(env, active_agent, using_min_waiting=RUN_EVAL_REFERENCES, using_shortest=RUN_EVAL_REFERENCES, route_planning_mode=ACTIVE_ROUTE_MODE, return_details=True, environment=environment)
+                evaluation(env, active_agent, using_min_waiting=RUN_EVAL_REFERENCES, using_shortest=RUN_EVAL_REFERENCES, route_planning_mode=ACTIVE_ROUTE_MODE, return_details=True, environment=environment, split=args.eval_split)
             eval_detail_filename = f"evaluation_detail_{USE_AGENT}_{ACTIVE_ROUTE_MODE}_{time.strftime('%Y%m%d-%H%M%S')}.json"
 
-        eval_output_dir = environment.output_dir
+        if args.eval_split == "validation":
+            eval_detail_filename = eval_detail_filename.replace("evaluation_detail_", "validation_detail_", 1)
+        if args.eval_split == "validation" or args.chargers_per_station != 3:
+            eval_detail_filename = eval_detail_filename.replace(".json", f"_cs{args.chargers_per_station}.json")
+        if args.evaluation_output_dir is not None:
+            eval_output_dir = args.evaluation_output_dir.expanduser().resolve()
+        elif args.eval_split == "validation":
+            eval_output_dir = PROJECT_ROOT / "outputs" / environment.name / f"validation_cs{args.chargers_per_station}"
+        else:
+            eval_output_dir = environment.output_dir
         eval_output_dir.mkdir(parents=True, exist_ok=True)
         eval_detail_path = eval_output_dir / eval_detail_filename
         detail["evaluation_options"] = {
             "using_min_waiting": RUN_EVAL_REFERENCES,
             "using_shortest": RUN_EVAL_REFERENCES,
         }
+        detail["charging_infrastructure"] = {
+            "chargers_per_station": args.chargers_per_station,
+            "station_count": len(cs_loc),
+            "total_chargers": len(cs_loc) * args.chargers_per_station,
+            "per_charger_rate_changed": False,
+        }
+        if "evaluation_scope" in detail:
+            detail["evaluation_scope"]["chargers_per_station"] = args.chargers_per_station
+        checkpoint = Path(args.checkpoint).resolve() if args.checkpoint is not None else None
+        provenance = {
+            "checkpoint": str(checkpoint) if checkpoint is not None else None,
+            "checkpoint_sha256": hashlib.sha256(checkpoint.read_bytes()).hexdigest() if checkpoint is not None else None,
+            "seed": args.seed,
+            "pytorch_eval_mode": True,
+            "chargers_per_station": args.chargers_per_station,
+            "route_mode": ACTIVE_ROUTE_MODE,
+            "route_checkpoint": str(route_checkpoint) if route_checkpoint is not None else None,
+            "route_checkpoint_sha256": hashlib.sha256(Path(route_checkpoint).read_bytes()).hexdigest() if route_checkpoint is not None else None,
+        }
+        detail["evaluation_provenance"] = provenance
+        if args.eval_split == "validation":
+            detail["validation_provenance"] = provenance.copy()
         save_training_results(detail, eval_detail_path)
 
         print(f"agent {fmt_triplet(eval_data_bag)}")
